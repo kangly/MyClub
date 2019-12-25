@@ -1,0 +1,110 @@
+{extend name="public:layer" /}
+
+{block name="main"}
+
+<form action="/admin/system/save_group" class="form-horizontal" method="post" name="form-add-group" id="form-add-group">
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">名称</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" name="title" id="title" value="{$group.title}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">状态</label>
+        <div class="col-sm-8">
+            <label class="radio-inline">
+                <input type="radio" name="status" id="status_1" value="1" {neq name="group.status" value="0"}checked{/neq}>正常
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="status" id="status_0" value="0" {eq name="group.status" value="0"}checked{/eq}>关闭
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">权限</label>
+        <div class="col-sm-8">
+
+            <label class="checkbox-inline">
+                <input type="checkbox" id="checkall" value="option1">全选
+            </label>
+            <label class="checkbox-inline">
+                <input type="checkbox" id="expandall" value="option2">展开
+            </label>
+
+            <div id="data-jstree" style="margin-top: 5px;">
+
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" name="undetermined_rules" id="undetermined_rules">
+    <input type="hidden" name="rule_ids" id="rule_ids">
+    <input type="hidden" name="id" value="{$group.id}">
+
+</form>
+
+<script type="text/javascript">
+
+    $(function(){
+        $('#data-jstree').jstree({
+            'core' : {
+                'data':$.parseJSON('{$tree_list|raw}')
+            },
+            'plugins' : ['checkbox','types'],
+            'types': {
+                'default' : {
+                    'icon' : false
+                }
+            }
+         });
+
+        $('#checkall').click(function(){
+            if($(this).is(':checked')){
+                $('#data-jstree').jstree(true).select_all();
+            }else{
+                $('#data-jstree').jstree(true).deselect_all();
+            }
+        });
+
+        $('#expandall').click(function(){
+            if($(this).is(':checked')){
+                $('#data-jstree').jstree(true).open_all();
+            }else{
+                $('#data-jstree').jstree(true).close_all();
+            }
+        });
+    });
+
+    function save(callback){
+        var undetermined_rules = '';
+        var rule_ids = $('#data-jstree').jstree(true).get_selected();
+        $('#data-jstree').find('.jstree-undetermined').each(function (i, element) {
+            var undetermined_id = $(element).closest('.jstree-node').attr('id');
+            rule_ids += ','+undetermined_id;
+            undetermined_rules += undetermined_id+',';
+        });
+        if(undetermined_rules){
+            undetermined_rules = undetermined_rules.substring(0,undetermined_rules.length-1);
+            $('#undetermined_rules').val(undetermined_rules);
+        }
+        $('#rule_ids').val(rule_ids);
+
+        if($.trim($("#title").val()) == ''){
+            _tip_error('名称不能为空!');
+            return;
+        }
+
+        _submit_form('form-add-group',function(){
+            if(callback){
+                callback();
+                _close_movable_popup();
+            }
+        });
+    }
+
+</script>
+
+{/block}

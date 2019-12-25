@@ -1,0 +1,61 @@
+
+<button type="button" class="btn btn-success btn-sm" onclick="add_article(0)">新增</button>
+
+<table id="articlesList">
+
+</table>
+
+<script type="text/javascript">
+
+    $(function(){
+        var bootstrapTable_group = {
+            columns: [{
+                field: 'id',
+                title: 'ID',
+                align: 'center',
+                sortable : true
+            }, {
+                field: 'title',
+                title: '文章标题',
+                align: 'center',
+                sortable : true
+            }, {
+                field: 'is_publish',
+                title: '发布状态',
+                align: 'center',
+                sortable : true,
+                formatter:function(value,row,index){
+                    return row.is_publish==1?'是':'否';
+                }
+            }, {
+                title: '操作',
+                align: 'center',
+                formatter:function(value,row,index){
+                    var a = '<button class="btn btn-sm btn-success" onclick="add_article(\''+ row.id + '\')">编辑</button> ';
+                    var b = '<button class="btn btn-sm btn-danger" onclick="delete_article(\''+ row.id +'\')">删除</button> ';
+                    return a+b;
+                }
+            }]
+        };
+
+        load_bootstrapTable('articlesList','/admin/article/search_article',bootstrapTable_group);
+    });
+
+    function load_article_list(){
+        refresh_bootstrapTable('articlesList');
+    }
+
+    function add_article(id){
+        var url = '/admin/article/add_article?id='+id;
+        _add_movable_popup(url,'新增文章','','',function(){
+            load_article_list();
+        });
+    }
+
+    function delete_article(id){
+        _delete_item('/admin/article/delete_article',{id:id},function(){
+            $('#articlesList').bootstrapTable('removeByUniqueId',id);
+        });
+    }
+
+</script>

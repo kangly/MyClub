@@ -1,0 +1,92 @@
+{extend name="public:base" /}
+{block name="main"}
+<div class="center-block center-block-novel">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-6">
+        <div class="input-group">
+            <input type="text" class="form-control" id="search_keyword" placeholder="请输入要搜索的小说名称">
+            <span class="input-group-btn">
+                <a class="btn btn-success" role="button" onclick="curl_novel()">搜索</a>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div id="novels">
+    <div class="col-md-12 col-one">
+        <div class="col-md-9">
+            {notempty name='one_data'}
+                {volist name="one_data" id="vo"}
+                    <div class="col-md-6">
+                        {$vo.html|raw|default=''}
+                    </div>
+                {/volist}
+            {/notempty}
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">本期强推</div>
+                <ul class="list-unstyled novels-side">
+                    {$two_data.html|raw|default=''}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 col-two">
+     {notempty name='thr_data'}
+        {volist name="thr_data" id="vo"}
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">{$vo.title}</div>
+                    <div class="panel-body">
+                        {$vo.top|raw}
+                    </div>
+                    <ul class="list-group">
+                        {$vo.ul|raw}
+                    </ul>
+                </div>
+            </div>
+        {/volist}
+      {/notempty}
+    </div>
+
+    <div class="col-md-12">
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">最近更新小说列表</div>
+                <ul class="list-group">
+                    {$four_data.html|raw|default=''}
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">最新入库小说</div>
+                <ul class="list-group novels-side">
+                    {$five_data.html|raw|default=''}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $("img").one("error", function(e){
+            $(this).attr("src", "https://t1.picb.cc/uploads/2018/01/31/UNpMX.md.jpg");
+        });
+        _call_enter_Event('#search_keyword',function(){
+            curl_novel()}
+        );
+    });
+
+    function curl_novel(){
+        var keyword = $.trim($('#search_keyword').val());
+        if(!keyword){
+            _tip_error('请输入要搜索的小说名称!');
+            return;
+        }
+        location.href = '/novel/search?k='+keyword;
+    }
+</script>
+{/block}

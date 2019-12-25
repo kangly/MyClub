@@ -1,0 +1,61 @@
+
+<button type="button" class="btn btn-success btn-sm" onclick="add_group(0)">新增</button>
+
+<table id="groupsList">
+
+</table>
+
+<script type="text/javascript">
+
+    $(function(){
+        var bootstrapTable_group = {
+            columns: [{
+                field: 'id',
+                title: 'ID',
+                align: 'center',
+                sortable : true
+            }, {
+                field: 'title',
+                title: '名称',
+                align: 'center',
+                sortable : true
+            }, {
+                field: 'status',
+                title: '状态',
+                align: 'center',
+                sortable : true,
+                formatter:function(value,row,index){
+                    return row.status==1?'正常':'禁用';
+                }
+            }, {
+                title: '操作',
+                align: 'center',
+                formatter:function(value,row,index){
+                    var a = '<button class="btn btn-sm btn-success" onclick="add_group(\''+ row.id + '\')">编辑</button> ';
+                    var b = '<button class="btn btn-sm btn-danger" onclick="delete_group(\''+ row.id +'\')">删除</button> ';
+                    return a+b;
+                }
+            }]
+        };
+
+        load_bootstrapTable('groupsList','/admin/system/search_group',bootstrapTable_group);
+    });
+
+    function load_group_list(){
+        refresh_bootstrapTable('groupsList');
+    }
+
+    function add_group(id){
+        var url = '/admin/system/add_group?id='+id;
+        _add_movable_popup(url,'新增用户组','','',function(){
+            load_group_list();
+        });
+    }
+
+    function delete_group(id){
+        _delete_item('/admin/system/delete_group',{id:id},function(){
+            $('#groupsList').bootstrapTable('removeByUniqueId',id);
+        });
+    }
+
+</script>

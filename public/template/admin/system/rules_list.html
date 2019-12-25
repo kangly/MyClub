@@ -1,0 +1,87 @@
+
+<button type="button" class="btn btn-success btn-sm" onclick="add_rule(0)">新增</button>
+
+<table id="rulesList">
+
+</table>
+
+<script type="text/javascript">
+
+    $(function(){
+        var bootstrapTable_rule = {
+            columns: [{
+                field: 'id',
+                title: 'ID',
+                align: 'center',
+                sortable : true
+            },{
+                field: 'title_show',
+                title: '规则名称',
+                align: 'center',
+                sortable : true
+            }, {
+                field: 'name',
+                title: '规则标识',
+                align: 'center',
+                sortable : true
+            }, {
+                field: 'icon',
+                title: '图标',
+                align: 'center',
+                formatter:function(value,row,index){
+                    return '<i class="'+row.icon+'"></i>';
+                },
+                sortable : true
+            }, {
+                field: 'status',
+                title: '状态',
+                align: 'center',
+                formatter:function(value,row,index){
+                    return row.status==1?'正常':'禁用';
+                },
+                sortable : true
+            }, {
+                field: 'is_menu',
+                title: '菜单',
+                align: 'center',
+                formatter:function(value,row,index){
+                    return row.is_menu==1?'是':'否';
+                },
+                sortable : true
+            }, {
+                field: 'order_num',
+                title: '排序',
+                align: 'center',
+                sortable : true
+            }, {
+                title: '操作',
+                align: 'center',
+                formatter:function(value,row,index){
+                    var a = '<button class="btn btn-sm btn-success" onclick="add_rule(\''+ row.id + '\')">编辑</button> ';
+                    var b = '<button class="btn btn-sm btn-danger" onclick="delete_rule(\''+ row.id +'\')">删除</button> ';
+                    return a+b;
+                }
+            }]
+        };
+
+        load_bootstrapTable('rulesList','/admin/system/search_rules',bootstrapTable_rule);
+    });
+
+    function load_rules_list(){
+        refresh_bootstrapTable('rulesList');
+    }
+
+    function add_rule(id){
+        var url = '/admin/system/add_rule?id='+id;
+        _add_movable_popup(url,'新增规则','','',function(){
+            load_rules_list();
+        });
+    }
+
+    function delete_rule(id){
+        _delete_item('/admin/system/delete_rule',{id:id},function(){
+            $('#rulesList').bootstrapTable('removeByUniqueId',id);
+        });
+    }
+
+</script>

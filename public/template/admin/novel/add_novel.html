@@ -1,0 +1,76 @@
+{extend name="public:layer" /}
+
+{block name="main"}
+
+<form action="/admin/novel/save_novel" class="form-horizontal" method="post" name="form-add-novel" id="form-add-novel">
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">采集来源</label>
+        <div class="col-sm-4">
+            <select name="tid" id="novel_tid" class="form-control">
+                <option value="">请选择</option>
+                <option value="1" {eq name="novel.tid" value="1"}selected{/eq}>八一中文网</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">小说名称</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="title" id="novel_title" value="{$novel.title}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">原文链接</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" name="link" id="novel_link" value="{$novel.link}" placeholder="要采集小说的首页链接">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">发布</label>
+        <div class="col-sm-8">
+            <label class="radio-inline">
+                <input type="radio" name="is_pub" id="is_pub_1" value="1" {neq name="novel.is_pub" value="0"}checked{/neq}>是
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="is_pub" id="is_pub_0" value="0" {eq name="novel.is_pub" value="0"}checked{/eq}>否
+            </label>
+        </div>
+    </div>
+
+    <input type="hidden" name="id" value="{$novel.id}">
+
+</form>
+
+<script type="text/javascript">
+
+    function save(callback){
+
+        if($.trim($("#novel_tid").val()) == ''){
+            _tip_error('采集来源不能为空!');
+            return;
+        }
+
+        if($.trim($("#novel_title").val()) == ''){
+            _tip_error('小说名称不能为空!');
+            return;
+        }
+
+        if($.trim($("#novel_link").val()) == ''){
+            _tip_error('原文链接不能为空!');
+            return;
+        }
+
+        _submit_form('form-add-novel',function(){
+            if(callback){
+                callback();
+                _close_movable_popup();
+            }
+        });
+    }
+
+</script>
+
+{/block}

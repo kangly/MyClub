@@ -1,0 +1,49 @@
+{extend name="public:layer" /}
+
+{block name="main"}
+
+<form action="/admin/article/save_column" class="form-horizontal" method="post" name="form-add-column" id="form-add-column">
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">父级</label>
+        <div class="col-sm-8">
+            <select name="pid" class="form-control">
+                <option value="0">无</option>
+                {volist name="column_list" id="vo"}
+                <option value="{$vo.id}" {eq name="column.pid" value="$vo.id"}selected{/eq}>{$vo.title_show|raw}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">栏目名称</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="title" id="title" value="{$column.title}">
+        </div>
+    </div>
+
+    <input type="hidden" name="id" value="{$column.id}">
+
+</form>
+
+<script type="text/javascript">
+
+    function save(callback){
+
+        if($.trim($("#title").val()) == ''){
+            _tip_error('栏目名称不能为空!');
+            return;
+        }
+
+        _submit_form('form-add-column',function(){
+            if(callback){
+                callback();
+                _close_movable_popup();
+            }
+        });
+    }
+
+</script>
+
+{/block}

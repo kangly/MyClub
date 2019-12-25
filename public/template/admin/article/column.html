@@ -1,0 +1,17 @@
+{extend name="public:base" /}
+{block name="main"}
+<div class="card">
+    <ul class="nav nav-tabs" role="tablist" id="myTab">
+        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab1" page="{:url('/admin/article/column_list')}" role="tab" onclick="_tab_load(this)">文章栏目</a></li>
+    </ul>
+    <div id="tab_content_page" class="tab-content tabcontent-border">
+        <div id="tab1" class="tab-pane active">
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        _load_tab_page_content();
+    });
+</script>
+{/block}

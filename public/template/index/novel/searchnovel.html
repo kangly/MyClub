@@ -1,0 +1,19 @@
+{extend name="public:base" /}
+{block name="main"}
+<div class="col-md-10 col-md-offset-1 fiction_chapter" role="main">
+    <h4 class="fiction_title">
+        {$title}
+        <a class="pull-right" href="#novel-bottom">直达底部</a>
+    </h4>
+
+    <div class="fiction_ul">
+        <ul class="list-inline">
+            {volist name="novel_data" id="vo"}
+            <li><a target="_blank" href="/novel/view/{$nid}/{$vo.id}.html">{$vo.title}</a></li>
+            {/volist}
+        </ul>
+    </div>
+
+    <a class="pull-right" href="#novel-top">返回顶部</a>
+</div>
+{/block}

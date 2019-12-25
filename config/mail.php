@@ -1,0 +1,10 @@
+<?php
+return [
+    // 邮箱配置
+    'Host'         => 'smtp.qq.com', //smtp服务器的名称
+    'Username'     => '371976974@qq.com', //你的邮箱名
+    'Password'     => 'uiqwpmmubofebjab', //邮箱密码(QQ邮箱密码为授权码)
+    'SMTPSecure'   => 'tls', //启用TLS加密
+    'From'         => '371976974@qq.com', //发件人地址
+    'FROMName'     => '系统通知', //发件人姓名,
+];
