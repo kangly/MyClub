@@ -15,7 +15,7 @@ use PHPMailer\PHPMailer\Exception;
 
 class Mailer extends Controller
 {
-    public function SendMailer()
+    public function SendMailer($email='614797580@qq.com')
     {
         $mail = new PHPMailer(true);
         $mailC = Config::pull('mail');
@@ -33,7 +33,7 @@ class Mailer extends Controller
             $mail->Port       = 587;//端口号
 
             $mail->setFrom($mailC['From'], $mailC['FROMName']);//发送
-            $mail->addAddress('614797580@qq.com', '测试接收人');//接收
+            $mail->addAddress($email, '测试接收人');//接收
             //$mail->addAddress('ellen@example.com');//添加其他接收人
             $mail->addReplyTo($mailC['From'], $mailC['FROMName']);//回复
             //$mail->addCC('cc@example.com');//抄送

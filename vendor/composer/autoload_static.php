@@ -15,6 +15,7 @@ class ComposerStaticInit7e20164abce412e903ee289d5371a514
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
+        'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
         '7ba3c774c30c8399e359b5ff7f3b943e' => __DIR__ . '/..' . '/tightenco/collect/src/Illuminate/Support/helpers.php',
         '8592c7b0947d8a0965a9e8c3d16f9c24' => __DIR__ . '/..' . '/elasticsearch/elasticsearch/src/autoload.php',
         'abede361264e2ae69ec1eee813a101af' => __DIR__ . '/..' . '/markbaker/complex/classes/src/functions/abs.php',
@@ -83,6 +84,10 @@ class ComposerStaticInit7e20164abce412e903ee289d5371a514
         array (
             'think\\composer\\' => 15,
         ),
+        'p' => 
+        array (
+            'phpseclib\\' => 10,
+        ),
         'a' => 
         array (
             'app\\' => 4,
@@ -122,6 +127,7 @@ class ComposerStaticInit7e20164abce412e903ee289d5371a514
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'PhpOffice\\PhpSpreadsheet\\' => 25,
+            'PhpAmqpLib\\' => 11,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
         'M' => 
@@ -167,6 +173,10 @@ class ComposerStaticInit7e20164abce412e903ee289d5371a514
         'think\\composer\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/think-installer/src',
+        ),
+        'phpseclib\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
         ),
         'app\\' => 
         array (
@@ -255,6 +265,10 @@ class ComposerStaticInit7e20164abce412e903ee289d5371a514
         'PhpOffice\\PhpSpreadsheet\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
+        ),
+        'PhpAmqpLib\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-amqplib/php-amqplib/PhpAmqpLib',
         ),
         'PHPMailer\\PHPMailer\\' => 
         array (

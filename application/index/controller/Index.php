@@ -3,6 +3,8 @@ namespace app\index\controller;
 
 use think\Db;
 use think\facade\Session;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
 
 class Index extends Home
 {
@@ -107,6 +109,8 @@ class Index extends Home
                 $result['status'] = 'success';
                 $result['code'] = 200;
                 $result['text'] = '注册成功!';
+
+                $this->SendMail($email);
 
                 return json($result);
             }
@@ -248,5 +252,17 @@ class Index extends Home
     public function instructions()
     {
         return $this->fetch();
+    }
+
+    protected function SendMail($email='')
+    {
+        $connection = new AMQPStreamConnection('localhost', 5672, 'root', '123456');
+        $channel = $connection->channel();
+        $channel->queue_declare('hello', false, false, false, false);
+        $msg = new AMQPMessage($email);
+        $channel->basic_publish($msg, '', 'hello');
+        //echo " [x] Sent 'Hello World!'\n";
+        $channel->close();
+        $connection->close();
     }
 }
