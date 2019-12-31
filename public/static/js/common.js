@@ -478,9 +478,11 @@ function _register(){
                 }
             }else{
                 $('.error-notice.success').text(ret.text);
-                $(".box-con").css({
-                    'marginLeft':0
-                });
+                setTimeout(function(){
+                    $(".box-con").css({
+                        'marginLeft':0
+                    });
+                },800);
             }
         }
     });

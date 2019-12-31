@@ -6,7 +6,7 @@
 # https://github.com/sequelpro/sequelpro
 #
 # Host: 127.0.0.1 (MySQL 5.7.16)
-# Database: test
+# Database: club
 # Generation Time: 2018-10-11 01:43:30 +0000
 # ************************************************************
 
@@ -238,7 +238,7 @@ CREATE TABLE `user` (
   `last_login_time` datetime DEFAULT NULL COMMENT '最后登录时间',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`)
+  KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `user` WRITE;

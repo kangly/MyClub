@@ -256,7 +256,7 @@ class Index extends Home
 
     protected function SendMail($email='')
     {
-        $connection = new AMQPStreamConnection('localhost', 5672, 'root', '123456');
+        $connection = new AMQPStreamConnection('localhost', 5672, 'guest', 'guest');
         $channel = $connection->channel();
         $channel->queue_declare('hello', false, false, false, false);
         $msg = new AMQPMessage($email);

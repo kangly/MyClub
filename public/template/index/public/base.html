@@ -28,9 +28,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <!--<a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="/">
                 <img src="/static/images/logo.png" width="100">
-            </a>-->
+            </a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav" id="sel-active-nav">
@@ -44,10 +44,10 @@
             <ul class="nav navbar-nav navbar-right">
                 {neq name='userInfo.nickname' value=''}
                 <li><a href="/ampleadmin/ampleadmin/ampleadmin-html/ampleadmin/index.html" target="_blank">会员中心</a></li>
-                <li><a href="javascript:;">{$userInfo.nickname}</a></li>
-                <li><a href="javascript:;" onclick="_sign_out('{$userInfo.uid}')">注销</a></li>
+                <li><a href="javascript:void(0);">{$userInfo.nickname}</a></li>
+                <li><a href="javascript:void(0);" onclick="_sign_out('{$userInfo.uid}')">注销</a></li>
                 {else/}
-                <li><a href="#" data-toggle="modal" data-target="#myModal">注册/登录</a></li>
+                <li><a href="javascript:void(0);" data-toggle="modal" data-target="#myModal">注册/登录</a></li>
                 {/neq}
             </ul>
         </div>
@@ -77,19 +77,19 @@
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="tran pr">
-                                    <a href="javascript:;" class="tran" onclick="_login()">登录</a>
+                                    <a href="javascript:void(0);" class="tran" onclick="_login()">登录</a>
                                     <img class="loading" src="/static/images/loading.gif">
                                 </button>
                             </div>
                             <div class="from-line"></div>
                             <div class="form-group">
-                                <a href="javascript:;" class="move-signup a-tag tran blue-border">还没有帐号？免费注册<i class="iconfont tran"></i></a>
+                                <a href="javascript:void(0);" class="move-signup a-tag tran blue-border">还没有帐号？免费注册<i class="iconfont tran"></i></a>
                             </div>
                             <!--<div class="form-group">
-                                <a href="javascript:;" class="move-reset a-tag tran">忘记密码？重置 <i class="iconfont tran"></i></a>
+                                <a href="javascript:void(0);" class="move-reset a-tag tran">忘记密码？重置 <i class="iconfont tran"></i></a>
                             </div>
                             <div class="form-group">
-                                <a href="javascript:;" class="move-other a-tag tran">使用第三方帐号登录<i class="iconfont tran"></i></a>
+                                <a href="javascript:void(0);" class="move-other a-tag tran">使用第三方帐号登录<i class="iconfont tran"></i></a>
                             </div>-->
                         </div>
 
@@ -110,7 +110,7 @@
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" class="tran pr">
-                                        <a href="javascript:;" class="tran" onclick="_register()">注册</a>
+                                        <a href="javascript:void(0);" class="tran" onclick="_register()">注册</a>
                                         <img class="loading" src="/static/images/loading.gif">
                                     </button>
                                 </div>
@@ -118,58 +118,58 @@
                             </div>
                             <div class="from-line"></div>
                             <div class="form-group">
-                                <a href="javascript:;" class="move-login a-tag tran blue-border">已有帐号？登录<i class="iconfont tran"></i></a>
+                                <a href="javascript:void(0);" class="move-login a-tag tran blue-border">已有帐号？登录<i class="iconfont tran"></i></a>
                             </div>
                             <!--<div class="form-group">
-                                <a href="javascript:;" class="move-other a-tag tran">使用第三方帐号登录<i class="iconfont tran"></i></a>
+                                <a href="javascript:void(0);" class="move-other a-tag tran">使用第三方帐号登录<i class="iconfont tran"></i></a>
                             </div>-->
                         </div>
 
                         <div class="other-way f-l">
                             <div class="form-group">
                                 <button type="submit" class="tran pr">
-                                    <a href="javascript:;" class="tran">QQ帐号登录</a>
+                                    <a href="javascript:void(0);" class="tran">QQ帐号登录</a>
                                     <img class="loading" src="/static/images/loading.gif">
                                 </button>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="tran pr">
-                                    <a href="javascript:;" class="tran">微信帐号登录</a>
+                                    <a href="javascript:void(0);" class="tran">微信帐号登录</a>
                                     <img class="loading" src="/static/images/loading.gif">
                                 </button>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="tran pr">
-                                    <a href="javascript:;" class="tran">新浪微博帐号登录</a>
+                                    <a href="javascript:void(0);" class="tran">新浪微博帐号登录</a>
                                     <img class="loading" src="/static/images/loading.gif">
                                 </button>
                             </div>
                             <div class="from-line"></div>
                             <div class="form-group">
-                                <a href="javascript:;" class="move-signup a-tag tran blue-border">还没有帐号？免费注册<i class="iconfont tran"></i></a>
+                                <a href="javascript:void(0);" class="move-signup a-tag tran blue-border">还没有帐号？免费注册<i class="iconfont tran"></i></a>
                             </div>
                             <div class="form-group">
-                                <a href="javascript:;" class="move-login a-tag tran">已有帐号？登录<i class="iconfont tran"></i></a>
+                                <a href="javascript:void(0);" class="move-login a-tag tran">已有帐号？登录<i class="iconfont tran"></i></a>
                             </div>
                         </div>
 
                         <div class="mimachongzhi f-l">
                             <div class="form-group">
                                 <input type="text" placeholder="请输入您的邮箱地址">
-                                <span class="error-notic">邮箱格式不正确</span>
+                                <span class="error-notice">邮箱格式不正确</span>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="tran pr">
-                                    <a href="javascript:;" class="tran">发送重置密码邮件</a>
+                                    <a href="javascript:void(0);" class="tran">发送重置密码邮件</a>
                                     <img class="loading" src="/static/images/loading.gif">
                                 </button>
                             </div>
                             <div class="from-line"></div>
                             <div class="form-group">
-                                <a href="javascript:;" class="move-signup a-tag tran blue-border">还没有帐号？免费注册<i class="iconfont tran"></i></a>
+                                <a href="javascript:void(0);" class="move-signup a-tag tran blue-border">还没有帐号？免费注册<i class="iconfont tran"></i></a>
                             </div>
                             <div class="form-group">
-                                <a href="javascript:;" class="move-login a-tag tran">已有帐号？登录<i class="iconfont tran"></i></a>
+                                <a href="javascript:void(0);" class="move-login a-tag tran">已有帐号？登录<i class="iconfont tran"></i></a>
                             </div>
                         </div>
                     </div>

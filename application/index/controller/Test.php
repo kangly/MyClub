@@ -27,6 +27,6 @@ class Test extends Home
     public function SendMailer()
     {
         $mailer = new Mailer();
-        $mailer->SendMailer();
+        $mailer->SendMailer('614797580@qq.com');
     }
 }
