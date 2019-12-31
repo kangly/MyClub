@@ -19,7 +19,7 @@ class Home extends Controller
 {
     public $userInfo = [];//当前登录用户信息
 
-    function _initialize()
+    function initialize()
     {
         $this->userInfo = session('user_auth','','front');
         $this->assign('userInfo',$this->userInfo);

@@ -17,6 +17,15 @@ use think\paginator\driver\Bootstrap;
  */
 class Novel extends Home
 {
+    //暂时解决file_get_contents()报错，需要改成curl或更新证书
+    //SSL operation failed with code 1. OpenSSL Error messages
+    const stream_opts = [
+            'ssl' => [
+                'verify_peer'=>false,
+                'verify_peer_name'=>false,
+            ]
+        ];
+
     /**
      * 小说首页
      */
@@ -26,7 +35,7 @@ class Novel extends Home
         $url = 'https://www.biduo.cc';
 
         //获取源码
-        $html = file_get_contents($url);
+        $html = file_get_contents($url,false,stream_context_create(self::stream_opts));
 
         //采集规则
         $rules = [
@@ -159,7 +168,7 @@ class Novel extends Home
                 $url .= '&page='.$page;
             }
 
-            $html = file_get_contents($url);
+            $html = file_get_contents($url,false,stream_context_create(self::stream_opts));
 
             //采集规则
             $rules = [
@@ -244,7 +253,7 @@ class Novel extends Home
             $url = 'https://www.biduo.cc/biquge/'.$id;
 
             //获取源码
-            $html = file_get_contents($url);
+            $html = file_get_contents($url,false,stream_context_create(self::stream_opts));
 
             //采集规则
             $rules = [

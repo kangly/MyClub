@@ -265,4 +265,9 @@ class Index extends Home
         $channel->close();
         $connection->close();
     }
+
+    public function test()
+    {
+
+    }
 }

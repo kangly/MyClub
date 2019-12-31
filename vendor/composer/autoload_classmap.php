@@ -6,22 +6,16 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Binance\\API' => $vendorDir . '/jaggedsoft/php-binance-api/php-binance-api.php',
     'Callback' => $vendorDir . '/jaeger/phpquery-single/phpQuery.php',
     'CallbackBody' => $vendorDir . '/jaeger/phpquery-single/phpQuery.php',
     'CallbackParam' => $vendorDir . '/jaeger/phpquery-single/phpQuery.php',
     'CallbackParameterToReference' => $vendorDir . '/jaeger/phpquery-single/phpQuery.php',
     'CallbackReturnReference' => $vendorDir . '/jaeger/phpquery-single/phpQuery.php',
     'CallbackReturnValue' => $vendorDir . '/jaeger/phpquery-single/phpQuery.php',
-    'Cpdf' => $vendorDir . '/dompdf/dompdf/lib/Cpdf.php',
     'DOMDocumentWrapper' => $vendorDir . '/jaeger/phpquery-single/phpQuery.php',
     'DOMEvent' => $vendorDir . '/jaeger/phpquery-single/phpQuery.php',
-    'HTML5_Data' => $vendorDir . '/dompdf/dompdf/lib/html5lib/Data.php',
-    'HTML5_InputStream' => $vendorDir . '/dompdf/dompdf/lib/html5lib/InputStream.php',
-    'HTML5_Parser' => $vendorDir . '/dompdf/dompdf/lib/html5lib/Parser.php',
-    'HTML5_Tokenizer' => $vendorDir . '/dompdf/dompdf/lib/html5lib/Tokenizer.php',
-    'HTML5_TreeBuilder' => $vendorDir . '/dompdf/dompdf/lib/html5lib/TreeBuilder.php',
     'ICallbackNamed' => $vendorDir . '/jaeger/phpquery-single/phpQuery.php',
+    'JsonException' => $vendorDir . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
     'phpQuery' => $vendorDir . '/jaeger/phpquery-single/phpQuery.php',
     'phpQueryEvents' => $vendorDir . '/jaeger/phpquery-single/phpQuery.php',
     'phpQueryObject' => $vendorDir . '/jaeger/phpquery-single/phpQuery.php',

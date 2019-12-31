@@ -116,6 +116,9 @@ $data = [
     // 异常处理handle类 留空使用 \think\exception\Handle
     //'exception_handle'       => '\\app\\common\\exception\\HttpException',
     'exception_handle'       => '',
+
+    // 开启路由合并解析
+    'route_rule_merge'	=> true,
 ];
 
 return $data;
