@@ -14,7 +14,9 @@ class Books extends Home
         $books_data = [
             [
                 'title'=>'Go入门指南',
-                'url'=>'https://go.fdos.me',
+                //'url'=>'https://learnku.com/docs/the-way-to-go',
+                'url'=>'https://www.cntofu.com/book/14/readme.html',
+
             ],
             [
                 'title'=>'PHP The Right Way[English]',
