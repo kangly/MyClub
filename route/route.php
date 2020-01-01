@@ -15,6 +15,7 @@ Route::get('novel/search', 'index/novel/search')->cache(3600);
 Route::get('novel/searchnovel/:id', 'index/novel/searchnovel')->cache(3600);
 Route::get('book/:id$', 'index/novel/searchnovel')->cache(3600);
 Route::get('book/:nid/:id$', 'index/novel/view')->cache(3600);
+Route::get('member/index', 'index/member/index')->cache(false);
 Route::get('cloud/', 'index/cloud/index')->cache(false);
 Route::get('test/', 'index/test/index')->cache(false);
 Route::get('bugs/', 'index/bugs/index')->cache(false);
