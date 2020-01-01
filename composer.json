@@ -29,7 +29,8 @@
         "php-amqplib/php-amqplib": "^2.11",
         "topthink/think-swoole": "2.0.*",
         "topthink/think-captcha": "2.0.*",
-        "topthink/think-image": "^1.0"
+        "topthink/think-image": "^1.0",
+        "phpoffice/phpspreadsheet": "^1.10"
     },
     "autoload": {
         "psr-4": {
