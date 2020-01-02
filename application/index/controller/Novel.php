@@ -189,7 +189,7 @@ class Novel extends Home
 
             $list_data = $data->all();
             foreach($list_data as $k=>$v){
-                $list_data[$k]['link'] = str_replace('http://www.biduo.cc/biquge','/novel/searchnovel',$v['link']);
+                $list_data[$k]['link'] = str_replace('http://www.biduo.cc/biquge','/book',$v['link']);
             }
 
             //获取分页信息
@@ -309,7 +309,7 @@ class Novel extends Home
         $nid = input('nid');
 
         if(!$id && $nid){
-            $this->redirect('novel/searchnovel/'.$nid);
+            $this->redirect('book/'.$nid);
         }
 
         if($id && $nid)

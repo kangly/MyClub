@@ -117,8 +117,10 @@ $data = [
     //'exception_handle'       => '\\app\\common\\exception\\HttpException',
     'exception_handle'       => '',
 
+    // 是否开启路由
+    'url_route_on'           => true,
     // 开启路由合并解析
-    'route_rule_merge'	=> true,
+    'route_rule_merge'	     => true,
 ];
 
 return $data;
