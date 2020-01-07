@@ -250,7 +250,7 @@ class Novel extends Home
 
         if($id)
         {
-            $url = 'https://www.biduo.cc/biquge/'.$id;
+            $url = 'https://www.biduo.cc/biquge/'.$id.'/';
 
             //获取源码
             $html = file_get_contents($url,false,stream_context_create(self::stream_opts));
