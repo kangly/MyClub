@@ -162,7 +162,7 @@ class Novel extends Home
         {
             $encode_keyword = urlencode($keyword);
 
-            $url = 'https://www.biduo.cc/search.php?keyword='.$encode_keyword;
+            $url = 'https://www.biduo.cc/search.php?q='.$encode_keyword;
 
             if($page && $page>1){
                 $url .= '&page='.$page;
@@ -196,7 +196,7 @@ class Novel extends Home
 
             $page_rules = [
                 'pages' => ['.search-result-page-main a:last','href','',function($content) use($keyword){
-                    $content = str_replace('/search.php?keyword='.$keyword.'&page=','',$content);
+                    $content = str_replace('/search.php?q='.$keyword.'&page=','',$content);
                     return $content;
                 }]
             ];
