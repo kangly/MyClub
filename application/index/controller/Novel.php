@@ -165,7 +165,7 @@ class Novel extends Home
             $url = 'https://www.biduo.cc/search.php?q='.$encode_keyword;
 
             if($page && $page>1){
-                $url .= '&page='.$page;
+                $url .= '&p='.$page;
             }
 
             $html = file_get_contents($url,false,stream_context_create(self::stream_opts));
@@ -189,14 +189,14 @@ class Novel extends Home
 
             $list_data = $data->all();
             foreach($list_data as $k=>$v){
-                $list_data[$k]['link'] = str_replace('http://www.biduo.cc/biquge','/book',$v['link']);
+                $list_data[$k]['link'] = str_replace('/biquge','/book',$v['link']);
             }
 
             //获取分页信息
 
             $page_rules = [
-                'pages' => ['.search-result-page-main a:last','href','',function($content) use($keyword){
-                    $content = str_replace('/search.php?q='.$keyword.'&page=','',$content);
+                'pages' => ['.search-result-page-main a:last','href','',function($content) use($encode_keyword){
+                    $content = str_replace('/search.php?q='.$encode_keyword.'&p=','',$content);
                     return $content;
                 }]
             ];
