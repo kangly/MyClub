@@ -9,6 +9,8 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
+Route::rule('api/articles/:page', 'api/article/index','GET');
+Route::rule('api/article/:id', 'api/article/view','GET');
 Route::rule('novel/index', 'index/novel/index','GET')->cache(3600);
 Route::rule('novel/view/:nid/:id', 'index/novel/view','GET')->cache(3600);
 Route::rule('novel/search', 'index/novel/search','GET')->cache(3600);

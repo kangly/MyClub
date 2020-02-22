@@ -121,6 +121,8 @@ $data = [
     'url_route_on'           => true,
     // 开启路由合并解析
     'route_rule_merge'	     => true,
+    //网站域名
+    'website_url'            => '',
 ];
 
 return $data;

@@ -16,7 +16,7 @@ class Admin extends Controller
     public $adminUser = [];//超级管理员组用户
 
     //初始化一些数据
-    function _initialize()
+    function initialize()
     {
         if(!is_login()){
             $this->redirect(url('/admin/login'));

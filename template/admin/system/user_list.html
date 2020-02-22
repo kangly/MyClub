@@ -1,0 +1,135 @@
+
+<button type="button" class="btn btn-success btn-sm" onclick="add_user(0)">新增</button>
+
+<table id="usersList" data-show-toggle="true">
+
+</table>
+
+<script type="text/javascript">
+    $(function(){
+        var bootstrapTable_user = {
+            queryParams: function(params) {
+                var search_type = $('#search_type').val();
+                var search_keyword = $('#search_keyword').val();
+                return {
+                    search_type:search_type,
+                    search_keyword:search_keyword
+                };
+            },
+            columns: [{
+                field: 'id',
+                title: 'ID',
+                align: 'center',
+                sortable : true
+            }, {
+                field: 'username',
+                title: '用户名',
+                align: 'center',
+                sortable : true
+            }, {
+                field: 'nickname',
+                title: '昵称',
+                align: 'center',
+                sortable : true
+            },  {
+                field: 'roles',
+                title: '角色',
+                align: 'center',
+                sortable : true,
+                formatter:function(value,row,index){
+                    var roles = '';
+                    $(value).each(function(){
+                        roles += this.title + ',';
+                    });
+                    return roles.substr(0,roles.length-1);
+                }
+            }, {
+                field: 'email',
+                title: '邮箱',
+                align: 'center',
+                sortable : true
+            }, {
+                field: 'mobile',
+                title: '电话',
+                align: 'center',
+                sortable : true
+            }, {
+                field: 'create_time',
+                title: '创建时间',
+                align: 'center',
+                sortable : true
+            }, {
+                field: 'status',
+                title: '状态',
+                align: 'center',
+                sortable : true,
+                formatter:function(value,row,index){
+                    var status = '禁用';
+                    var status_class = '';
+                    if(row.status){
+                        status = '正常';
+                        status_class = ' on';
+                    }
+                    return '<div class="slider-frame primary mr1"><span data-on-text="正常" data-off-text="禁用" class="slider-button'+status_class+'" onclick="slider_btn(this,function(){' +
+                        'edit_user_status('+row.id+'\,'+row.status+')})">'+status+'</span></div>';
+                }
+            }, {
+                title: '操作',
+                align: 'center',
+                formatter:function(value,row,index){
+                    var a = '<button class="btn btn-success btn-sm" onclick="add_user(\''+ row.id + '\')">编辑</button> ';
+                    var b = '<button class="btn btn-danger btn-sm" onclick="delete_user(\''+ row.id +'\')">删除</button> ';
+                    return a+b;
+                }
+            }]
+        };
+
+        load_bootstrapTable('usersList','/admin/system/search_user',bootstrapTable_user);
+
+        _call_enter_event('#search_keyword',function(){
+            load_user_list()}
+        );
+    });
+
+    function load_user_list(){
+        var params = {
+            search_type:$('#search_type').val(),
+            search_keyword:$('#search_keyword').val()
+        };
+        refresh_bootstrapTable('usersList',params);
+    }
+
+    function edit_user_status(id,status){
+        $.ajax({
+            dataType: "json",
+            type: "post",
+            url: '/admin/system/save_editable_user',
+            data: {
+                pk:id,
+                name:'status',
+                value:status?0:1
+            },
+            success: function (ret){
+                if(ret.code==1){
+                    _tip_success(ret.msg);
+                }else{
+                    _tip_error(ret.msg);
+                }
+            }
+        });
+    }
+
+    function add_user(id){
+        var url = '/admin/system/add_user?id='+id;
+        var title = id>0?'编辑用户':'新增用户';
+        _add_movable_popup(url,title,'','',function(){
+            load_user_list();
+        });
+    }
+
+    function delete_user(id){
+        _delete_item('/admin/system/delete_user',{id:id},function(){
+            $('#usersList').bootstrapTable('removeByUniqueId',id);
+        });
+    }
+</script>

@@ -1,0 +1,51 @@
+
+<button type="button" class="btn btn-success btn-sm" onclick="add_column(0)">新增</button>
+
+<table id="columnsList">
+
+</table>
+
+<script type="text/javascript">
+    $(function(){
+        var bootstrapTable_column = {
+            columns: [{
+                field: 'id',
+                title: 'ID',
+                align: 'center',
+                sortable : true
+            },{
+                field: 'title_show',
+                title: '栏目名称',
+                align: 'center',
+                sortable : true
+            }, {
+                title: '操作',
+                align: 'center',
+                formatter:function(value,row,index){
+                    var a = '<button class="btn btn-sm btn-success" onclick="add_column(\''+ row.id + '\')">编辑</button> ';
+                    var b = '<button class="btn btn-sm btn-danger" onclick="delete_column(\''+ row.id +'\')">删除</button> ';
+                    return a+b;
+                }
+            }]
+        };
+
+        load_bootstrapTable('columnsList','/admin/article/search_column',bootstrapTable_column);
+    });
+
+    function load_columns_list(){
+        refresh_bootstrapTable('columnsList');
+    }
+
+    function add_column(id){
+        var url = '/admin/article/add_column?id='+id;
+        _add_movable_popup(url,'新增栏目',['600px','300px'],'',function(){
+            load_columns_list();
+        });
+    }
+
+    function delete_column(id){
+        _delete_item('/admin/article/delete_column',{id:id},function(){
+            $('#columnsList').bootstrapTable('removeByUniqueId',id);
+        });
+    }
+</script>

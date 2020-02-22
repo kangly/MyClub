@@ -13,11 +13,11 @@ $data = [
     // 服务器地址
     'hostname'        => '127.0.0.1',
     // 数据库名
-    'database'        => 'my_club',
+    'database'        => '',
     // 用户名
-    'username'        => 'root',
+    'username'        => '',
     // 密码
-    'password'        => '922419',
+    'password'        => '',
     // 数据库类型
     'type'            => 'mysql',
     // 端口

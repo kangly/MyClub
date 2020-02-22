@@ -110,7 +110,7 @@ class Index extends Home
                 $result['code'] = 200;
                 $result['text'] = '注册成功!';
 
-                $this->SendMail($email);
+                //$this->SendMail($email);
 
                 return json($result);
             }

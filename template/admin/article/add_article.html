@@ -1,0 +1,110 @@
+{extend name="public:layer" /}
+{block name="main"}
+    <form action="/admin/article/save_article" enctype="multipart/form-data" class="form-horizontal" method="post" name="form-add-article" id="form-add-article">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">栏目</label>
+            <div class="col-sm-4">
+                <select name="column_id" id="article_column_id" class="form-control">
+                    <option value="">无</option>
+                    {volist name="column_list" id="vo"}
+                    <option value="{$vo.id}" {eq name="article.column_id" value="$vo.id"}selected{/eq}>{$vo.title_show|raw}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="title" class="col-sm-2 control-label">标题</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="title" id="title" value="{$article.title}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="title" class="col-sm-2 control-label">简介</label>
+            <div class="col-sm-6">
+                <textarea id="summary" class="col-sm-12" rows="3" name="summary" autofocus>{$article.summary}</textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="title" class="col-sm-2 control-label">缩略图</label>
+            <div class="col-sm-4">
+                <input type="file" class="form-control" name="thumb" id="thumb" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="editor" class="col-sm-2 control-label">内容</label>
+            <div class="col-sm-10">
+                <div id="editor">{$article.content|raw}</div>
+                <textarea name="content" id="content" style="display:none"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">来源</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" name="source" value="{$article.source}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">来源地址</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="source_link" value="{$article.source_link}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">发布</label>
+            <div class="col-sm-8">
+                <label class="radio-inline">
+                    <input type="radio" name="is_publish" id="is_publish_1" value="1" {neq name="article.is_publish" value="0"}checked{/neq}>是
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="is_publish" id="is_publish_0" value="0" {eq name="article.is_publish" value="0"}checked{/eq}>否
+                </label>
+            </div>
+        </div>
+
+        <input type="hidden" name="id" value="{$article.id}">
+    </form>
+
+    <script type="text/javascript">
+        var E = window.wangEditor;
+        var editor = new E('#editor');
+        editor.customConfig.uploadImgServer = '/admin/article/uploadImages';//上传图片到服务器
+        editor.create();
+
+        function save(callback){
+            if($('#article_column_id').val() == ''){
+                _tip_error('文章分类不能为空!');
+                return;
+            }
+
+            if($.trim($("#title").val()) == ''){
+                _tip_error('文章标题不能为空!');
+                return;
+            }
+
+            if($.trim($("#summary").val()) == ''){
+                _tip_error('文章简介不能为空!');
+                return;
+            }
+
+            $('#content').val(editor.txt.html());
+            if(delHtmlTag($('#content').val()) == ''){
+                _tip_error('文章内容不能为空!');
+                return;
+            }
+
+            _submit_form('form-add-article',function(){
+                if(callback){
+                    callback();
+                    _close_movable_popup();
+                }
+            });
+        }
+    </script>
+{/block}

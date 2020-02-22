@@ -1,0 +1,152 @@
+{extend name="public:base" /}
+{block name="main"}
+<div class="col-md-12 custom_css_base" role="main">
+    <div class="col-md-9 dmb">
+        <div class="row">
+            <div class="col-xs-12 col-sm-8 col-md-6 col-lg-6">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="search_keyword" value="{$keyword}" placeholder="输入您要搜索的小说名称">
+                    <span class="input-group-btn">
+                        <a class="btn btn-success" role="button" onclick="curl_novel()">搜索</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row center-block dmt">
+            {notempty name="list_data"}
+                {volist name="list_data" id="vo"}
+                    <div class="result-item">
+                        <div class="result-game-item-pic hidden-xs">
+                            <a href="{$vo.link}" title="{$vo.title}" target="_blank">
+                                <img src="{$vo.img}" class="result-game-item-pic-link-img">
+                            </a>
+                        </div>
+                        <div>
+                            <h3>
+                                <a href="{$vo.link}" title="{$vo.title}" target="_blank">
+                                    <span>{$vo.title}</span>
+                                </a>
+                            </h3>
+                            <p>{$vo.intro}</p>
+                            <div>
+                                {$vo.tags|raw}
+                            </div>
+                        </div>
+                    </div>
+                {/volist}
+                <div>
+                    {$pages|raw}
+                </div>
+                {else/}
+                <div class="empty_result">查询结果为空！</div>
+            {/notempty}
+        </div>
+    </div>
+
+    <div class="col-md-3 custom_css_index">
+        <div class="panel panel-default">
+            <div class="panel-heading">快捷入口</div>
+            <ul class="list-group list-unstyled">
+                <li><a class="btn-link" href="/novel/index.html">小说</a></li>
+                <li><a class="btn-link" href="/cloud/index.html">云资源</a></li>
+                <li><a class="btn-link" href="/books/index.html">编程书籍</a></li>
+            </ul>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">学习手册</div>
+            <ul class="list-unstyled list-inline list-tool">
+                <li><a class="btn-link" href="/php-manual/index.html" target="_blank">PHP手册</a></li>
+                <li><a class="btn-link" href="https://learnku.com/docs/tutorial/3.7.0" target="_blank">Python 官方文档：入门教程</a></li>
+                <li><a class="btn-link" href="http://www.pythondoc.com/pythontutorial3/index.html" target="_blank">Python3.6.3</a></li>
+                <li><a class="btn-link" href="https://learnku.com/docs/byte-of-python/2018" target="_blank">Python 简明教程</a></li>
+                <li><a class="btn-link" href="https://learnku.com/docs/python-guide/2018" target="_blank">Python 最佳实践指南 2018</a></li>
+                <li><a class="btn-link" href="https://www.docs4dev.com/docs/zh/python/3.7.2rc1/all/whatsnew-index.html" target="_blank">Python3.7</a></li>
+                <li><a class="btn-link" href="https://www.docs4dev.com/docs/zh/java/java8/tutorials/getStarted-index.html" target="_blank">Java8</a></li>
+                <li><a class="btn-link" href="https://learnku.com/docs/laravel/5.8" target="_blank">Laravel5.8</a></li>
+                <li><a class="btn-link" href="https://laravel-china.org/docs/laravel/5.7" target="_blank">Laravel5.7</a></li>
+                <li><a class="btn-link" href="https://www.yiichina.com/doc/guide/2.0" target="_blank">Yii2.0</a></li>
+                <li><a class="btn-link" href="https://www.kancloud.cn/manual/thinkphp5_1/353946" target="_blank">ThinkPHP5.1</a></li>
+                <li><a class="btn-link" href="https://www.kancloud.cn/manual/thinkphp5/118003" target="_blank">ThinkPHP5.0</a></li>
+                <li><a class="btn-link" href="https://www.kancloud.cn/manual/thinkphp/1678" target="_blank">ThinkPHP3.2.3</a></li>
+                <li><a class="btn-link" href="https://learnku.com/python" target="_blank">Python社区</a></li>
+                <li><a class="btn-link" href="https://learnku.com/golang" target="_blank">Golang社区</a></li>
+                <li><a class="btn-link" href="https://learnku.com/php" target="_blank">PHP社区</a></li>
+                <li><a class="btn-link" href="https://learnku.com/laravel" target="_blank">Laravel社区</a></li>
+                <li><a class="btn-link" href="https://learnku.com/docs/php-design-patterns/2018" target="_blank">PHP 设计模式全集 2018</a></li>
+                <li><a class="btn-link" href="https://learnku.com/docs/the-little-go-book" target="_blank">Go 简易教程</a></li>
+                <li><a class="btn-link" href="https://learnku.com/docs/the-way-to-go" target="_blank">Go 入门指南</a></li>
+                <li><a class="btn-link" href="https://learnku.com/docs/build-web-application-with-golang" target="_blank">Go Web 编程</a></li>
+                <li><a class="btn-link" href="https://www.docs4dev.com/" target="_blank">Docs4dev</a></li>
+                <li><a class="btn-link" href="https://www.docs4dev.com/docs/zh/mysql/5.7/reference/preface.html" target="_blank">MySQL5.7</a></li>
+                <li><a class="btn-link" href="https://www.docs4dev.com/docs/zh/mongodb/v3.6/reference/introduction.html" target="_blank">mongodb3.6</a></li>
+                <li><a class="btn-link" href="https://www.docs4dev.com/docs/zh/postgre-sql/11.2/reference/preface.html" target="_blank">PostgreSQL11.2</a></li>
+                <li><a class="btn-link" href="https://www.docs4dev.com/docs/zh/apache/2.4/reference/new_features_2_4.html" target="_blank">Apache2.4</a></li>
+                <li><a class="btn-link" href="https://www.docs4dev.com/docs/zh/nginx/current/reference/install.html" target="_blank">Nginx</a></li>
+            </ul>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">相关信息</div>
+            <ul class="list-group list-unstyled">
+                <li><a class="btn-link" target="_blank" href="https://github.com/kangly">GitHub</a></li>
+                <li><a class="btn-link" target="_blank" href="https://www.jianshu.com/u/3358901467fb">简书</a></li>
+                <li><a class="btn-link" target="_blank" href="https://segmentfault.com/u/kangly">segmentfault</a></li>
+            </ul>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">工具箱</div>
+            <ul class="list-unstyled list-inline list-tool">
+                <li><a class="btn-link" href="http://tool.oschina.net/codeformat" target="_blank">在线代码格式化</a></li>
+                <li><a class="btn-link" href="http://tool.oschina.net/encode" target="_blank">在线编码转换</a></li>
+                <li><a class="btn-link" href="https://maxiang.io" target="_blank">马克飞象</a></li>
+                <li><a class="btn-link" href="https://www.zybuluo.com/mdeditor" target="_blank">Cmd Markdown 编辑阅读器</a></li>
+                <li><a class="btn-link" href="https://atom.io" target="_blank">Atom</a></li>
+                <li><a class="btn-link" href="http://mahua.jser.me" target="_blank">MaHua 在线markdown编辑器</a></li>
+                <li><a class="btn-link" href="http://pandao.github.io/editor.md" target="_blank">Editor.md</a></li>
+                <li><a class="btn-link" href="https://www.typora.io" target="_blank">Typora</a></li>
+                <li><a class="btn-link" href="https://lightpdf.com/zh" target="_blank">LightPDF</a></li>
+                <li><a class="btn-link" href="https://cn.office-converter.com" target="_blank">Office-converter</a></li>
+                <li><a class="btn-link" href="https://pdfcandy.com" target="_blank">PDFCandy</a></li>
+                <li><a class="btn-link" href="https://packagist.org" target="_blank">Packagist</a></li>
+                <li><a class="btn-link" href="https://www.querylist.cc" target="_blank">QueryList</a></li>
+                <li><a class="btn-link" href="https://freecodecamp.cn" target="_blank">freeCodeCamp</a></li>
+                <li><a class="btn-link" href="https://www.phpcomposer.com/" target="_blank">composer中文网</a></li>
+                <li><a class="btn-link" href="https://getcomposer.org/" target="_blank">composer</a></li>
+                <li><a class="btn-link" href="https://www.elastic.co/cn/" target="_blank">Elasticsearch</a></li>
+                <li><a class="btn-link" href="https://www.rabbitmq.com/" target="_blank">RabbitMQ</a></li>
+            </ul>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">小说快捷入口</div>
+            <ul class="list-unstyled list-inline list-tool">
+                <li><a class="btn-link" href="/book/34_34140.html" target="_blank">诡秘之主</a></li>
+                <li><a class="btn-link" href="/book/17_17811.html" target="_blank">修真聊天群</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $("img").one("error", function(e){
+            $(this).attr("src", "https://t1.picb.cc/uploads/2018/01/31/UNpMX.md.jpg");
+        });
+        _call_enter_event('#search_keyword',function(){
+            curl_novel()}
+        );
+    });
+
+    function curl_novel(){
+        var keyword = $.trim($('#search_keyword').val());
+        if(!keyword){
+            _tip_error('请输入要搜索的小说名称!');
+            return;
+        }
+        location.href = '/novel/search?k='+keyword;
+    }
+</script>
+{/block}

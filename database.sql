@@ -43,7 +43,7 @@ LOCK TABLES `admin` WRITE;
 
 INSERT INTO `admin` (`id`, `username`, `nickname`, `password`, `status`, `register_time`, `last_login_ip`, `last_login_time`)
 VALUES
-  (1,'admin','小小康','21232f297a57a5a743894a0e4a801fc3',1,'2017-09-05 13:31:09','127.0.0.1','2018-06-11 11:09:35'),
+  (1,'admin','小小康','e19d5cd5af0378da05f63f891c7467af',1,'2017-09-05 13:31:09','127.0.0.1','2018-06-11 11:09:35'),
   (2,'test','测试','e19d5cd5af0378da05f63f891c7467af',1,NULL,'',NULL);
 
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
@@ -57,14 +57,14 @@ DROP TABLE IF EXISTS `article`;
 
 CREATE TABLE `article` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文章表id',
-  `column_id` int(10) unsigned NOT NULL COMMENT '栏目id',
-  `title` varchar(300) NOT NULL COMMENT '文章标题',
-  `content` longtext COMMENT '文章内容',
+  `column_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '栏目id',
+  `title` varchar(50) NOT NULL DEFAULT '' COMMENT '文章标题',
+  `content` text COMMENT '文章内容',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建人id',
-  `user_name` varchar(100) DEFAULT NULL COMMENT '创建人姓名',
-  `source` varchar(100) DEFAULT NULL COMMENT '文章来源',
-  `source_link` varchar(300) DEFAULT NULL COMMENT '文章来源链接',
-  `sort` int(10) unsigned DEFAULT '0' COMMENT '栏目内排序',
+  `username` varchar(100) NOT NULL DEFAULT '' COMMENT '创建人姓名',
+  `source` varchar(100) NOT NULL DEFAULT '' COMMENT '文章来源',
+  `source_link` varchar(100) NOT NULL DEFAULT '' COMMENT '文章来源链接',
+  `sort` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '栏目内排序',
   `is_publish` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否发布',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`),
@@ -75,7 +75,7 @@ CREATE TABLE `article` (
 LOCK TABLES `article` WRITE;
 /*!40000 ALTER TABLE `article` DISABLE KEYS */;
 
-INSERT INTO `article` (`id`, `column_id`, `title`, `content`, `user_id`, `user_name`, `source`, `source_link`, `sort`, `is_publish`, `create_time`)
+INSERT INTO `article` (`id`, `column_id`, `title`, `content`, `user_id`, `username`, `source`, `source_link`, `sort`, `is_publish`, `create_time`)
 VALUES
   (1,1,'测试','<p>这是一篇测试文章。</p><p>如果你想了解更多，请关注后续更新内容。</p>',1,'admin',NULL,NULL,0,1,'2017-12-27 15:36:20'),
   (2,1,'欢迎博客','<p>这是本博客的欢迎页面。</p>',1,'admin','','',0,1,'2017-12-27 16:34:53');
@@ -94,7 +94,7 @@ CREATE TABLE `article_column` (
   `pid` int(10) unsigned NOT NULL COMMENT '父级栏目id',
   `title` varchar(200) NOT NULL COMMENT '栏目标题',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建人id',
-  `user_name` varchar(100) DEFAULT NULL COMMENT '创建人姓名',
+  `username` varchar(100) DEFAULT NULL COMMENT '创建人姓名',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`),
   KEY `pid` (`pid`),
@@ -104,7 +104,7 @@ CREATE TABLE `article_column` (
 LOCK TABLES `article_column` WRITE;
 /*!40000 ALTER TABLE `article_column` DISABLE KEYS */;
 
-INSERT INTO `article_column` (`id`, `pid`, `title`, `user_id`, `user_name`, `create_time`)
+INSERT INTO `article_column` (`id`, `pid`, `title`, `user_id`, `username`, `create_time`)
 VALUES
   (1,0,'未分类',1,'admin','2018-01-08 14:11:50'),
   (2,0,'测试',1,'admin','2018-01-08 14:12:19'),
@@ -227,11 +227,11 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户表id',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户表id',
   `username` varchar(100) NOT NULL DEFAULT '' COMMENT '用户名',
   `email` varchar(100) NOT NULL DEFAULT '' COMMENT '邮箱',
   `mobile` varchar(11) NOT NULL DEFAULT '' COMMENT '手机号',
-  `nickname` varchar(6100) DEFAULT NULL COMMENT '昵称',
+  `nickname` varchar(100) DEFAULT NULL COMMENT '昵称',
   `password` char(32) NOT NULL DEFAULT '' COMMENT '密码',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态',
   `last_login_ip` char(15) NOT NULL DEFAULT '' COMMENT '最后登录ip',
@@ -246,8 +246,8 @@ LOCK TABLES `user` WRITE;
 
 INSERT INTO `user` (`id`, `username`, `email`, `mobile`, `nickname`, `password`, `status`, `last_login_ip`, `last_login_time`, `create_time`)
 VALUES
-  (1,'kangly','371976974@qq.com','152271888888','小康','e19d5cd5af0378da05f63f891c7467af',1,'127.0.0.1','2018-10-10 09:23:47','2018-09-07 17:40:00'),
-  (2,'test','614797580@qq.com','152271666666','测试','e19d5cd5af0378da05f63f891c7467af',0,'',NULL,'2018-09-19 17:40:00');
+  (1,'kangly','371976974@qq.com','15227188888','小康','e19d5cd5af0378da05f63f891c7467af',1,'127.0.0.1','2018-10-10 09:23:47','2018-09-07 17:40:00'),
+  (2,'test','614797580@qq.com','15227166666','测试','e19d5cd5af0378da05f63f891c7467af',0,'',NULL,'2018-09-19 17:40:00');
 
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;

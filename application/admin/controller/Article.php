@@ -8,7 +8,7 @@
 namespace app\admin\controller;
 
 use lmxdawn\tree\Tree;
-use think\Model;
+use think\Request;
 
 class Article extends Admin
 {
@@ -39,11 +39,15 @@ class Article extends Admin
 
     /**
      * 新增/编辑文章
+     * @param Request $request
      * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
-    public function add_article()
+    public function add_article(Request $request)
     {
-        $id = input('get.id');
+        $id = $request->param('id');
 
         $article = null;
 
@@ -70,33 +74,47 @@ class Article extends Admin
     {
         $column_id = input('post.column_id');
         $title = input('post.title');
+        $summary = input('post.summary');
         $content = input('post.content');
 
         if($column_id>0 && $title && $content)
         {
-            $source = input('post.source');
-            $source_link = input('post.source_link');
+            $thumb = '';
+            $image = controller('Image','service');
+            $img = $image->uploadFile('thumb');
+            if($img!='empty'){
+                if($img['thumb_img']){
+                    $thumb = $img['thumb_img'];
+                }else{
+                    echo $img;
+                    exit;
+                }
+            }
 
             $data = [
-                'title' => $title,
                 'column_id' => $column_id,
+                'title' => $title,
+                'summary' => $summary,
                 'content' => $content,
-                'source' => $source,
-                'source_link' => $source_link
+                'source' => input('post.source'),
+                'source_link' => input('post.source_link')
             ];
-
-            $id = input('post.id');
 
             $article = model('admin/Article');
 
+            $id = input('post.id');
             if($id>0)
             {
+                if($thumb){
+                    $data['thumb'] = $thumb;
+                }
                 $article->where('id','=',$id)->update($data);
             }
             else
             {
+                $data['thumb'] = $thumb;
                 $data['user_id'] = $this->userInfo['uid'];
-                $data['user_name'] = $this->userInfo['username'];
+                $data['username'] = $this->userInfo['username'];
                 $data['create_time'] = _time();
 
                 $article_data = $article->create($data);
@@ -105,6 +123,16 @@ class Article extends Admin
 
             echo $id;
         }
+    }
+
+    /**
+     * wangEditor编辑器上传图片
+     * @return \think\response\Json
+     */
+    public function uploadImages()
+    {
+        $image = controller('Image','service');
+        return $image->uploadImages();
     }
 
     /**
@@ -203,7 +231,7 @@ class Article extends Admin
             else
             {
                 $data['user_id'] = $this->userInfo['uid'];
-                $data['user_name'] = $this->userInfo['username'];
+                $data['username'] = $this->userInfo['username'];
                 $data['create_time'] = _time();
 
                 $rule = $column->create($data);

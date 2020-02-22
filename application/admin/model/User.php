@@ -48,6 +48,7 @@ class User extends Model
         }
 
         $user = $this->where($map)->find();
+
         if (!$user) {
             $this->error = '用户不存在或被禁用';
         } else {
