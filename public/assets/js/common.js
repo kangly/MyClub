@@ -1066,6 +1066,7 @@ function _add_movable_popup(url,title,area,offset,callback){
         shade: 0,
         offset: offset,
         content: url,
+        maxmin: true,
         btn: ['确定'],
         yes: function(index, layero){
             //得到iframe页的窗口对象,执行iframe页的保存方法

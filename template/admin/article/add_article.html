@@ -76,6 +76,7 @@
         var editor = new E('#editor');
         editor.customConfig.uploadImgServer = '/admin/article/uploadImages';//上传图片到服务器
         editor.create();
+        E.fullscreen.init('#editor');
 
         function save(callback){
             if($('#article_column_id').val() == ''){
