@@ -82,13 +82,11 @@ class Article extends Admin
             $thumb = '';
             $image = controller('Image','service');
             $img = $image->uploadFile('thumb');
-            if($img!='empty'){
-                if($img['thumb_img']){
-                    $thumb = $img['thumb_img'];
-                }else{
-                    echo $img;
-                    exit;
-                }
+            if($img['status']=='success'){
+                $thumb = $img['info'];
+            }else if($img['status']=='error'){
+                echo $img['info'];
+                exit;
             }
 
             $data = [

@@ -43,29 +43,22 @@ class Image
     /**
      * 上传图片并生成缩略图
      * @param $name
-     * @param int $width
-     * @param int $height
-     * @return string
+     * @return array
      */
-    public function uploadFile($name,$width=200,$height=200)
+    public function uploadFile($name)
     {
         $file = request()->file($name);
-        if($file){
-            $filePaths = '../public/uploads/images/';
-            $info = $file->move($filePaths);
-            if($info){
-                $imgPath = 'uploads/images/'.$info->getSaveName();
-                $image = \think\Image::open($imgPath);
-                $thumb_path = 'uploads/images/'.date('Ymd').'/thumb_'.$info->getFilename();
-                $image->thumb($width,$height,\think\Image::THUMB_CENTER)->save($thumb_path);
-                $data['img'] = $imgPath;
-                $data['thumb_img'] = $thumb_path;
-                return $data;
-            }else{
-                return $file->getError();
-            }
+        $info = $file->move('../public/uploads/images/');
+        if($info){
+            return [
+                'status' => 'success',
+                'info' => 'uploads/images/'.$info->getSaveName()
+            ];
         }else{
-            return 'empty';
+            return [
+                'status' => 'error',
+                'info' => $file->getError()
+            ];
         }
     }
 }
