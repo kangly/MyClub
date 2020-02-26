@@ -1,4 +1,3 @@
-
 <button type="button" class="btn btn-success btn-sm" onclick="add_column(0)">新增</button>
 
 <table id="columnsList">
@@ -38,7 +37,7 @@
 
     function add_column(id){
         var url = '/admin/article/add_column?id='+id;
-        _add_movable_popup(url,'新增栏目',['600px','300px'],'',function(){
+        _add_movable_popup(url,'新增栏目',['780px','300px'],'',function(){
             load_columns_list();
         });
     }
