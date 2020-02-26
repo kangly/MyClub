@@ -9,6 +9,7 @@ namespace app\index\controller;
 
 use QL\QueryList;
 use think\paginator\driver\Bootstrap;
+use think\Request;
 
 /**
  * 小说模块控制器
@@ -149,14 +150,16 @@ class Novel extends Home
 
     /**
      * 小说搜索
+     * @param Request $request
+     * @return mixed
      */
-    public function search()
+    public function search(Request $request)
     {
         $list_data = null;
         $pages_data = null;
 
-        $keyword = input('k');
-        $page = input('page');
+        $keyword = $request->param('k');
+        $page = $request->param('page');
 
         if($keyword)
         {
@@ -239,14 +242,15 @@ class Novel extends Home
 
     /**
      * 采集具体小说
+     * @param Request $request
      * @return mixed
      */
-    public function searchnovel()
+    public function searchnovel(Request $request)
     {
         $novel_data = null;
         $title = null;
 
-        $id = input('id');
+        $id = $request->param('id');
 
         if($id)
         {
@@ -302,11 +306,13 @@ class Novel extends Home
 
     /**
      * 小说详情
+     * @param Request $request
+     * @return mixed
      */
-    public function view()
+    public function view(Request $request)
     {
-        $id = input('id');
-        $nid = input('nid');
+        $id = $request->param('id');
+        $nid = $request->param('nid');
 
         if(!$id && $nid){
             $this->redirect('book/'.$nid);

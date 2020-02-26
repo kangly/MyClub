@@ -3,9 +3,14 @@ namespace app\api\controller;
 
 use think\Controller;
 use think\facade\Config;
+use think\Request;
 
 class Article extends Controller
 {
+    /**
+     * @return \think\response\Json
+     * @throws \think\exception\DbException
+     */
     public function index()
     {
         $items = model('admin/Article')
@@ -27,10 +32,17 @@ class Article extends Controller
         return json($data);
     }
 
-    public function view()
+    /**
+     * @param Request $request
+     * @return \think\response\Json
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function view(Request $request)
     {
         $article = [];
-        $id = input('id');
+        $id = $request->param('id');
         if($id>0){
            $article = model('admin/Article')
                ->field('id,title,content,username author,left(create_time,16) posted_at')

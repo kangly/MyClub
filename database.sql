@@ -61,8 +61,8 @@ CREATE TABLE `article` (
   `title` varchar(50) NOT NULL DEFAULT '' COMMENT '文章标题',
   `content` text COMMENT '文章内容',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建人id',
-  `username` varchar(100) NOT NULL DEFAULT '' COMMENT '创建人姓名',
-  `source` varchar(100) NOT NULL DEFAULT '' COMMENT '文章来源',
+  `username` varchar(50) NOT NULL DEFAULT '' COMMENT '创建人姓名',
+  `source` varchar(50) NOT NULL DEFAULT '' COMMENT '文章来源',
   `source_link` varchar(100) NOT NULL DEFAULT '' COMMENT '文章来源链接',
   `sort` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '栏目内排序',
   `is_publish` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否发布',
@@ -92,9 +92,10 @@ DROP TABLE IF EXISTS `article_column`;
 CREATE TABLE `article_column` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文章栏目表id',
   `pid` int(10) unsigned NOT NULL COMMENT '父级栏目id',
-  `title` varchar(200) NOT NULL COMMENT '栏目标题',
+  `title` varchar(50) NOT NULL COMMENT '栏目标题',
+  `intro` varchar(100) NOT NULL COMMENT '栏目介绍',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建人id',
-  `username` varchar(100) DEFAULT NULL COMMENT '创建人姓名',
+  `username` varchar(50) DEFAULT NULL COMMENT '创建人姓名',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`),
   KEY `pid` (`pid`),
@@ -104,11 +105,9 @@ CREATE TABLE `article_column` (
 LOCK TABLES `article_column` WRITE;
 /*!40000 ALTER TABLE `article_column` DISABLE KEYS */;
 
-INSERT INTO `article_column` (`id`, `pid`, `title`, `user_id`, `username`, `create_time`)
+INSERT INTO `article_column` (`id`, `pid`, `title`, `intro`, `user_id`, `username`, `create_time`)
 VALUES
-  (1,0,'未分类',1,'admin','2018-01-08 14:11:50'),
-  (2,0,'测试',1,'admin','2018-01-08 14:12:19'),
-  (3,2,'测试孩子',1,'admin','2018-01-08 14:12:31');
+  (1,0,'未分类','这是一条未分类栏目',1,'admin','2018-01-08 14:11:50');
 
 /*!40000 ALTER TABLE `article_column` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -121,7 +120,7 @@ DROP TABLE IF EXISTS `auth_group`;
 
 CREATE TABLE `auth_group` (
   `id` mediumint(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户组表id',
-  `title` char(100) NOT NULL DEFAULT '' COMMENT '用户组名称',
+  `title` varchar(50) NOT NULL DEFAULT '' COMMENT '用户组名称',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态：为1正常，为0禁用',
   `rules` text COMMENT '用户组拥有的规则id，多个规则","隔开',
   `undetermined_rules` char(50) DEFAULT NULL COMMENT '待定规则id，多个规则","隔开，jstree的checkbox待定状态',
@@ -170,14 +169,14 @@ DROP TABLE IF EXISTS `auth_rule`;
 CREATE TABLE `auth_rule` (
   `id` mediumint(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '规则表id',
   `pid` int(10) unsigned DEFAULT '0' COMMENT '父级id',
-  `name` char(100) NOT NULL DEFAULT '' COMMENT '规则唯一标识',
-  `title` char(30) NOT NULL DEFAULT '' COMMENT '规则名称',
+  `name` varchar(100) NOT NULL DEFAULT '' COMMENT '规则唯一标识',
+  `title` varchar(30) NOT NULL DEFAULT '' COMMENT '规则名称',
   `type` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'type字段，目前暂时理解为规则类型，例如，1为后台管理类型，2为前台用户类型',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态：为1正常，为0禁用',
   `icon` varchar(20) DEFAULT NULL COMMENT '图标class名称',
   `order_num` smallint(4) DEFAULT '100' COMMENT '排序',
   `is_menu` tinyint(1) DEFAULT '0' COMMENT '是否菜单项',
-  `condition` char(100) NOT NULL DEFAULT '' COMMENT '规则表达式，为空表示存在就验证，不为空表示按照条件验证',
+  `condition` varchar(100) NOT NULL DEFAULT '' COMMENT '规则表达式，为空表示存在就验证，不为空表示按照条件验证',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -228,10 +227,10 @@ DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户表id',
-  `username` varchar(100) NOT NULL DEFAULT '' COMMENT '用户名',
+  `username` varchar(50) NOT NULL DEFAULT '' COMMENT '用户名',
   `email` varchar(100) NOT NULL DEFAULT '' COMMENT '邮箱',
   `mobile` varchar(11) NOT NULL DEFAULT '' COMMENT '手机号',
-  `nickname` varchar(100) DEFAULT NULL COMMENT '昵称',
+  `nickname` varchar(50) DEFAULT NULL COMMENT '昵称',
   `password` char(32) NOT NULL DEFAULT '' COMMENT '密码',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态',
   `last_login_ip` char(15) NOT NULL DEFAULT '' COMMENT '最后登录ip',

@@ -8,7 +8,7 @@
 namespace app\admin\controller;
 
 use lmxdawn\tree\Tree;
-use think\Model;
+use think\Request;
 
 /**
  * 系统管理
@@ -37,13 +37,17 @@ class System extends Admin
 
     /**
      * search用户信息
+     * @param Request $request
      * @return array|\PDOStatement|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
-    public function search_user()
+    public function search_user(Request $request)
     {
         $map = [];
-        $type = input('post.search_type');
-        $keyword = input('post.search_keyword');
+        $type = $request->param('search_type');
+        $keyword = $request->param('search_keyword');
         if(!$type && $keyword){
             $map['username|nickname|email|mobile'] = ['like',"%$keyword%"];
         }else if($type && $keyword){
@@ -60,28 +64,26 @@ class System extends Admin
 
     /**
      * 新增/编辑用户
+     * @param Request $request
      * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
-    public function add_user()
+    public function add_user(Request $request)
     {
-        $id = input('get.id');
         $user = null;
         $group_ids = '';
+        $id = $request->param('id');
 
         if($id>0)
         {
-            $user = model('admin/User')
-                ->where('id','=',$id)
-                ->find();
+            $user = model('admin/User')->where('id','=',$id)->find();
 
-            $access = model('admin/AuthGroupAccess')
-                ->where('uid','=',$id)
-                ->select();
-
+            $access = model('admin/AuthGroupAccess')->where('uid','=',$id)->select();
             foreach($access as $v){
                 $group_ids .= $v['group_id'].',';
             }
-
             $group_ids = rtrim($group_ids,',');
         }
 
@@ -97,17 +99,20 @@ class System extends Admin
 
     /**
      * 保存用户
+     * @param Request $request
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
      */
-    public function save_user()
+    public function save_user(Request $request)
     {
-        $group_id = input('post.group_id');
-        $username = trim(input('post.username'));
-        $email = trim(input('post.email'));
-        $mobile = trim(input('post.mobile'));
+        $group_id = $request->param('group_id');
+        $username = trim($request->param('username'));
+        $email = trim($request->param('email'));
+        $mobile = trim($request->param('mobile'));
 
         if($username && $group_id && $email && $mobile)
         {
-            $id = input('post.id');
+            $id = $request->param('id');
 
             if($id>0)
             {
@@ -116,10 +121,10 @@ class System extends Admin
                 }
             }
 
-            $status = input('post.status');
-            $nickname = trim(input('post.nickname'));
-            $password = trim(input('post.password'));
-            $confirm_password = trim(input('post.confirm_password'));
+            $status = $request->param('status');
+            $nickname = trim($request->param('nickname'));
+            $password = trim($request->param('password'));
+            $confirm_password = trim($request->param('confirm_password'));
 
             $user = model('admin/User');
 
@@ -205,14 +210,19 @@ class System extends Admin
     }
 
     /**
-     * 用户信息点击编辑
-     * 目前单独编辑先禁止修改管理员用户
+     * 用户信息点击编辑 目前单独编辑先禁止修改管理员用户
+     * @param Request $request
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
      */
-    public function save_editable_user(){
-
-        $id = input('post.pk');
-        $name = input('post.name');
-        $value = trim(input('post.value'));
+    public function save_editable_user(Request $request)
+    {
+        $id = $request->param('pk');
+        $name = $request->param('name');
+        $value = trim($request->param('value'));
 
         if($id>0 && $name)
         {
@@ -248,10 +258,13 @@ class System extends Admin
 
     /**
      * 删除用户,先不限制权限,后续添加
+     * @param Request $request
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
      */
-    public function delete_user()
+    public function delete_user(Request $request)
     {
-        $id = input('post.id');
+        $id = $request->param('id');
 
         if($id>0)
         {
@@ -301,29 +314,22 @@ class System extends Admin
 
     /**
      * 添加/编辑用户组
+     * @param Request $request
      * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
-    public function add_group()
+    public function add_group(Request $request)
     {
-        $id = input('get.id');
-
         $group = null;
-
-        if($id>0)
-        {
-            $map = [
-                'id' => $id
-            ];
-
-            $group = model('admin/AuthGroup')
-                ->where($map)
-                ->find();
+        $id = $request->param('id');
+        if($id>0){
+            $group = model('admin/AuthGroup')->where(['id'=>$id])->find();
         }
 
         $rule_data = getRules([],'id,title text,pid');
-
         $my_rules = explode(',',$group['rules']);
-
         foreach($rule_data as $k=>$v)
         {
             $undetermined_rules = [];
@@ -350,13 +356,16 @@ class System extends Admin
 
     /**
      * 保存用户组
+     * @param Request $request
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
      */
-    public function save_group()
+    public function save_group(Request $request)
     {
-        $title = input('post.title');
-        $status = input('post.status');
-        $rule_ids = input('post.rule_ids');
-        $undetermined_rules = input('post.undetermined_rules');
+        $title = $request->param('title');
+        $status = $request->param('status');
+        $rule_ids = $request->param('rule_ids');
+        $undetermined_rules = $request->param('undetermined_rules');
 
         $data = [
             'title' => $title,
@@ -365,7 +374,7 @@ class System extends Admin
             'undetermined_rules' => $undetermined_rules
         ];
 
-        $id = input('post.id');
+        $id = $request->param('id');
 
         $group = model('admin/AuthGroup');
 
@@ -384,10 +393,11 @@ class System extends Admin
 
     /**
      * 删除用户组,先不限制权限,后续会添加
+     * @param Request $request
      */
-    public function delete_group()
+    public function delete_group(Request $request)
     {
-        $id = input('post.id');
+        $id = $request->param('id');
 
         if($id>0)
         {
@@ -431,22 +441,18 @@ class System extends Admin
 
     /**
      * 添加/编辑规则
+     * @param Request $request
      * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
-    public function add_rule()
+    public function add_rule(Request $request)
     {
-        $id = input('get.id');
-
         $rule = null;
-
-        if($id>0)
-        {
-            $map = [
-                'id' => $id
-            ];
-
-            $rule = model('admin/AuthRule')->where($map)
-                ->find();
+        $id = $request->param('id');
+        if($id>0){
+            $rule = model('admin/AuthRule')->where(['id'=>$id])->find();
         }
 
         $this->assign('rule',$rule);
@@ -460,31 +466,29 @@ class System extends Admin
 
     /**
      * 保存规则
+     * @param Request $request
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
      */
-    public function save_rule()
+    public function save_rule(Request $request)
     {
-        $title = input('post.title');
-        $name = input('post.name');
+        $title = $request->param('title');
+        $name = $request->param('name');
 
         if($title && $name)
         {
-            $pid = input('post.pid');
-            $status = input('post.status');
-            $icon = input('post.icon');
-            $is_menu = input('post.is_menu');
-
             $data = [
-                'pid' => $pid,
+                'pid' => $request->param('pid'),
                 'name' => $name,
                 'title' => $title,
-                'status' => $status,
-                'icon' => $icon,
-                'is_menu' => $is_menu
+                'status' => $request->param('status'),
+                'icon' => $request->param('icon'),
+                'is_menu' => $request->param('is_menu')
             ];
 
-            $id = input('post.id');
-
             $rule = model('admin/AuthRule');
+
+            $id = $request->param('id');
 
             if($id>0)
             {
@@ -502,10 +506,11 @@ class System extends Admin
 
     /**
      * 删除规则,先不限制权限,后期添加
+     * @param Request $request
      */
-    public function delete_rule()
+    public function delete_rule(Request $request)
     {
-        $id = input('post.id');
+        $id = $request->param('id');
 
         if($id>0)
         {

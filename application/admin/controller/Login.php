@@ -10,6 +10,7 @@ namespace app\admin\controller;
 use think\Controller;
 use think\facade\Config;
 use think\facade\Session;
+use think\Request;
 
 /**
  * 后台登录控制器
@@ -28,8 +29,13 @@ class Login extends Controller
         return $this->fetch();
     }
 
-    //验证登录
-    public function login()
+    /**
+     * 验证登录
+     * @param Request $request
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
+     */
+    public function login(Request $request)
     {
         $url = url('/admin/index');
         if(is_login()){
@@ -38,8 +44,8 @@ class Login extends Controller
 
         if(request()->isPost())
         {
-            $username = input('post.username');
-            $password = input('post.password');
+            $username = $request->param('username');
+            $password = $request->param('password');
 
             $user = model('admin/User');
             $user_data = $user->login($username,$password);

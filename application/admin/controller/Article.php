@@ -5,7 +5,6 @@
  * Date: 2017/12/27
  * Time: 14:07
  */
-
 namespace app\admin\controller;
 
 use lmxdawn\tree\Tree;
@@ -54,9 +53,7 @@ class Article extends Admin
 
         if($id>0)
         {
-            $article = model('admin/Article')
-                ->where('id','=',$id)
-                ->find();
+            $article = model('admin/Article')->where('id','=',$id)->find();
         }
 
         $this->assign('article',$article);
@@ -70,13 +67,15 @@ class Article extends Admin
 
     /**
      * 保存文章
+     * @param Request $request
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
      */
-    public function save_article()
+    public function save_article(Request $request)
     {
-        $column_id = input('post.column_id');
-        $title = input('post.title');
-        $summary = input('post.summary');
-        $content = input('post.content');
+        $column_id = $request->param('column_id');
+        $title = $request->param('title');
+        $content = $request->param('content');
 
         if($column_id>0 && $title && $content)
         {
@@ -93,15 +92,15 @@ class Article extends Admin
             $data = [
                 'column_id' => $column_id,
                 'title' => $title,
-                'summary' => $summary,
+                'summary' => $request->param('summary'),
                 'content' => $content,
-                'source' => input('post.source'),
-                'source_link' => input('post.source_link')
+                'source' => $request->param('source'),
+                'source_link' => $request->param('source_link')
             ];
 
             $article = model('admin/Article');
 
-            $id = input('post.id');
+            $id = $request->param('id');
             if($id>0)
             {
                 if($thumb){
@@ -136,10 +135,11 @@ class Article extends Admin
 
     /**
      * 删除文章,先不限制权限,后期添加
+     * @param Request $request
      */
-    public function delete_article()
+    public function delete_article(Request $request)
     {
-        $id = input('post.id');
+        $id = $request->param('id');
 
         if($id>0)
         {
@@ -176,22 +176,19 @@ class Article extends Admin
 
     /**
      * 添加/编辑文章栏目
+     * @param Request $request
      * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
-    public function add_column()
+    public function add_column(Request $request)
     {
-        $id = input('get.id');
-
         $column = null;
 
-        if($id>0)
-        {
-            $map = [
-                'id' => $id
-            ];
-
-            $column = model('admin/ArticleColumn')->where($map)
-                ->find();
+        $id = $request->param('id');
+        if($id>0){
+            $column = model('admin/ArticleColumn')->where(['id'=>$id])->find();
         }
 
         $this->assign('column',$column);
@@ -205,24 +202,25 @@ class Article extends Admin
 
     /**
      * 保存文章栏目
+     * @param Request $request
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
      */
-    public function save_column()
+    public function save_column(Request $request)
     {
-        $title = input('post.title');
+        $title = $request->param('title');
 
         if($title)
         {
-            $pid = input('post.pid');
-
             $data = [
-                'pid' => $pid,
-                'title' => $title
+                'pid' => $request->param('pid'),
+                'title' => $title,
+                'intro' => $request->param('intro')
             ];
-
-            $id = input('post.id');
 
             $column = model('admin/ArticleColumn');
 
+            $id = $request->param('id');
             if($id>0)
             {
                 $column->where('id','=',$id)->update($data);
@@ -243,10 +241,11 @@ class Article extends Admin
 
     /**
      * 删除规则,先不限制权限,后期添加
+     * @param Request $request
      */
-    public function delete_column()
+    public function delete_column(Request $request)
     {
-        $id = input('post.id');
+        $id = $request->param('id');
 
         if($id>0)
         {

@@ -32,7 +32,10 @@ class User extends Model
      * @param $username
      * @param $password
      * @param null $map
-     * @return array|bool|false|\PDOStatement|string|Model
+     * @return array|bool|\PDOStatement|string|Model|null
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function login($username, $password, $map = null)
     {
@@ -83,7 +86,6 @@ class User extends Model
      */
     public function auto_login($user)
     {
-        // 记录登录session
         $auth = array(
             'uid'      => $user['id'],
             'username' => $user['username'],
@@ -125,6 +127,9 @@ class User extends Model
      * @param $id
      * @param $value
      * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function validate_name($id,$value)
     {
@@ -156,6 +161,9 @@ class User extends Model
      * @param $id
      * @param $value
      * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function validate_email($id,$value)
     {
@@ -187,6 +195,9 @@ class User extends Model
      * @param $id
      * @param $value
      * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function validate_mobile($id,$value)
     {

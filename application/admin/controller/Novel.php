@@ -7,7 +7,7 @@
  */
 namespace app\admin\controller;
 
-use think\Model;
+use think\Request;
 
 class Novel extends Admin
 {
@@ -23,6 +23,9 @@ class Novel extends Admin
     /**
      * 小说列表
      * @return array|\PDOStatement|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function novels_list()
     {
@@ -33,19 +36,19 @@ class Novel extends Admin
 
     /**
      * 新增/编辑小说
+     * @param Request $request
      * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
-    public function add_novel()
+    public function add_novel(Request $request)
     {
-        $id = input('get.id');
-
         $novel = null;
 
-        if($id>0)
-        {
-            $novel = model('admin/Novel')
-                ->where('id','=',$id)
-                ->find();
+        $id = $request->param('id');
+        if($id>0){
+            $novel = model('admin/Novel')->where('id','=',$id)->find();
         }
 
         $this->assign('novel',$novel);
@@ -55,29 +58,29 @@ class Novel extends Admin
 
     /**
      * 保存文章
+     * @param Request $request
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
      */
-    public function save_novel()
+    public function save_novel(Request $request)
     {
-        $tid = input('post.tid');
-        $title = input('post.title');
-        $link = input('post.link');
+        $tid = $request->param('tid');
+        $title = $request->param('title');
+        $link = $request->param('link');
 
         if($tid && $title && $link)
         {
-            $is_pub = input('post.is_pub');
-
             $data = [
                 'tid' => $tid,
                 'title' => $title,
                 'link' => $link,
-                'is_pub' => $is_pub,
+                'is_pub' => $request->param('is_pub'),
                 'nid' => pathinfo($link,PATHINFO_BASENAME)
             ];
 
-            $id = input('post.id');
-
             $novel = model('admin/Novel');
 
+            $id = $request->param('id');
             if($id>0)
             {
                 $novel->where('id','=',$id)->update($data);
@@ -98,10 +101,11 @@ class Novel extends Admin
 
     /**
      * 删除小说,先不限制权限,后期添加
+     * @param Request $request
      */
-    public function delete_novel()
+    public function delete_novel(Request $request)
     {
-        $id = input('post.id');
+        $id = $request->param('id');
 
         if($id>0)
         {

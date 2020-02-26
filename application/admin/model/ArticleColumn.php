@@ -15,7 +15,10 @@ class ArticleColumn extends Model
      * 获取文章栏目列表
      * @param array $map
      * @param string $fields
-     * @return false|\PDOStatement|string|\think\Collection
+     * @return array|\PDOStatement|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function getColumns($map=[],$fields='*')
     {

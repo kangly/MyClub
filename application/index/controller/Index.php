@@ -5,6 +5,7 @@ use think\Db;
 use think\facade\Session;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
+use think\Request;
 
 class Index extends Home
 {
@@ -19,17 +20,21 @@ class Index extends Home
 
     /**
      * 注册
+     * @param Request $request
      * @return \think\response\Json
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
-    public function register()
+    public function register(Request $request)
     {
         $result = [];
 
         if(request()->isPost())
         {
-            $email = trim(input('post.email'));
-            $nickname = trim(input('post.nickname'));
-            $password = trim(input('post.password'));
+            $email = trim($request->param('email'));
+            $nickname = trim($request->param('nickname'));
+            $password = trim($request->param('password'));
 
             if(!$email)
             {
@@ -135,16 +140,22 @@ class Index extends Home
 
     /**
      * 登录
+     * @param Request $request
      * @return \think\response\Json
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
      */
-    public function login()
+    public function login(Request $request)
     {
         $result = [];
 
         if(request()->isPost())
         {
-            $email = input('post.email');
-            $password = input('post.password');
+            $email = $request->param('email');
+            $password = $request->param('password');
 
             if(!$email)
             {
@@ -193,7 +204,7 @@ class Index extends Home
 
                     // 记录登录session
                     $auth = array(
-                        'uid'      => $is_exist['id'],
+                        'uid' => $is_exist['id'],
                         'nickname' => $is_exist['nickname'],
                         'email' => $is_exist['email']
                     );

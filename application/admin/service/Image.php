@@ -48,16 +48,23 @@ class Image
     public function uploadFile($name)
     {
         $file = request()->file($name);
-        $info = $file->move('../public/uploads/images/');
-        if($info){
-            return [
-                'status' => 'success',
-                'info' => 'uploads/images/'.$info->getSaveName()
-            ];
+        if($file){
+            $info = $file->move('../public/uploads/images/');
+            if($info){
+                return [
+                    'status' => 'success',
+                    'info' => 'uploads/images/'.$info->getSaveName()
+                ];
+            }else{
+                return [
+                    'status' => 'error',
+                    'info' => $file->getError()
+                ];
+            }
         }else{
             return [
-                'status' => 'error',
-                'info' => $file->getError()
+                'status' => 'waring',
+                'info' => 'empty'
             ];
         }
     }
