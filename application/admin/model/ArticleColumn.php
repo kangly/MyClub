@@ -30,4 +30,34 @@ class ArticleColumn extends Model
 
         return $rules;
     }
+
+    /**
+     * 文章栏目-文章 一对多关联
+     * @return \think\model\relation\HasMany
+     */
+    public function articles()
+    {
+        return $this->hasMany('Article','column_id','id');
+    }
+
+    /**
+     * 根据文章栏目id查询所属文章列表
+     * @param int $column_id
+     * @param int $page
+     * @param int $page_size
+     * @return mixed
+     */
+    public function articles_list($column_id=0,$page=1,$page_size=5)
+    {
+        $column = $this->get($column_id);
+        if($column){
+            return $column
+                ->articles()
+                ->field('id,title,summary,thumb,left(create_time,16) posted_at')
+                ->page($page,$page_size)
+                ->order('id desc')
+                ->select();
+        }
+        return [];
+    }
 }

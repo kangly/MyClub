@@ -11,5 +11,8 @@ use think\Model;
 
 class Article extends Model
 {
-
+    public function column()
+    {
+        return $this->belongsTo('ArticleColumn','column_id','id')->field('title');
+    }
 }

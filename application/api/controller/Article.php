@@ -16,7 +16,8 @@ class Article extends Controller
         $items = model('admin/Article')
             ->field('id,title,summary,thumb,left(create_time,16) posted_at')
             ->where('is_publish','=',1)
-            ->paginate(4);
+            ->order('id desc')
+            ->paginate(5);
 
         foreach ($items as $k=>$v)
         {
@@ -50,7 +51,6 @@ class Article extends Controller
                ->find();
 
             $article['views'] = mt_rand(1,100);
-            $article['votes'] = mt_rand(1,100);
         }
 
         return json($article);

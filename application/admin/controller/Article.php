@@ -32,9 +32,16 @@ class Article extends Admin
 
     public function search_article()
     {
-        return model('admin/Article')
+        $data = model('admin/Article')
+            ->field('id,title,is_publish,column_id')
             ->order(['sort'=>'desc','id'=>'desc'])
             ->select();
+
+        foreach ($data as $k=>$v){
+            $v->column;
+        }
+
+        return $data;
     }
 
     /**
@@ -168,7 +175,7 @@ class Article extends Admin
 
     public function search_column()
     {
-        $rule_list = getColumns([],'id,title,pid');
+        $rule_list = getColumns([],'id,title,pid,intro');
         $tree_list = Tree::build($rule_list)->getRootFormat();
 
         return $tree_list;
