@@ -9,15 +9,16 @@ class Category extends Controller
 {
     /**
      * @return \think\response\Json
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
      */
     public function index()
     {
-        $items = model('admin/ArticleColumn')
-            ->field('id,title,intro')
-            ->select();
+        $items_json = session('column_info');
+        if($items_json){
+            $items = json_decode($items_json,true);
+        }else{
+            $items = model('admin/ArticleColumn')->getColumns([],'id,title,intro');
+            session('column_info',json_encode($items));
+        }
 
         $data = [
             'message' => 'success',
@@ -33,11 +34,8 @@ class Category extends Controller
      */
     public function article(Request $request)
     {
-        $items = model('admin/ArticleColumn')
-            ->articles_list($request->param('id'),$request->param('page'));
-
-        foreach ($items as $k=>$v)
-        {
+        $items = model('admin/ArticleColumn')->articles_list($request->param('id'),$request->param('page'));
+        foreach ($items as $k=>$v){
             $items[$k]['thumb'] = Config::get('website_url').'/'.$v['thumb'];
             $items[$k]['views'] = mt_rand(1,100);
         }

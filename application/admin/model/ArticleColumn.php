@@ -22,13 +22,13 @@ class ArticleColumn extends Model
      */
     public function getColumns($map=[],$fields='*')
     {
-        $rules = $this
+        $columns = $this
             ->field($fields)
             ->where($map)
             ->order('id','asc')
             ->select();
 
-        return $rules;
+        return $columns;
     }
 
     /**

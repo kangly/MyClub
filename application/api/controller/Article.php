@@ -8,19 +8,13 @@ use think\Request;
 class Article extends Controller
 {
     /**
+     * @param Request $request
      * @return \think\response\Json
-     * @throws \think\exception\DbException
      */
-    public function index()
+    public function index(Request $request)
     {
-        $items = model('admin/Article')
-            ->field('id,title,summary,thumb,left(create_time,16) posted_at')
-            ->where('is_publish','=',1)
-            ->order('id desc')
-            ->paginate(5);
-
-        foreach ($items as $k=>$v)
-        {
+        $items = model('admin/Article')->articles_list($request->param('page'));
+        foreach ($items as $k=>$v){
             $items[$k]['thumb'] = Config::get('website_url').'/'.$v['thumb'];
             $items[$k]['views'] = mt_rand(1,100);
         }
@@ -36,20 +30,13 @@ class Article extends Controller
     /**
      * @param Request $request
      * @return \think\response\Json
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
      */
     public function view(Request $request)
     {
         $article = [];
         $id = $request->param('id');
         if($id>0){
-           $article = model('admin/Article')
-               ->field('id,title,content,username author,left(create_time,16) posted_at')
-               ->where('id','=',$id)
-               ->find();
-
+           $article = model('admin/Article')->article_view($id);
             $article['views'] = mt_rand(1,100);
         }
 
