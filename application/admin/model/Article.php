@@ -21,6 +21,7 @@ class Article extends Model
 
     /**
      * 文章列表
+     * @param array $map
      * @param int $page
      * @param int $page_size
      * @return array|\PDOStatement|string|\think\Collection
@@ -28,11 +29,13 @@ class Article extends Model
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function articles_list($page=1,$page_size=5)
+    public function articles_list($map=[],$page=1,$page_size=5)
     {
+        $map[] = ['is_publish','=',1];
+
         return $this
             ->field('id,title,summary,thumb,left(create_time,16) posted_at')
-            ->where('is_publish','=',1)
+            ->where($map)
             ->order('id desc')
             ->page($page,$page_size)
             ->select();

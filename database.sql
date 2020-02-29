@@ -35,7 +35,7 @@ CREATE TABLE `admin` (
   `last_login_ip` char(15) NOT NULL DEFAULT '' COMMENT '最后登录ip',
   `last_login_time` datetime DEFAULT NULL COMMENT '最后登录时间',
   PRIMARY KEY (`id`),
-  KEY `user_login_key` (`username`)
+  KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `admin` WRITE;
@@ -58,7 +58,8 @@ DROP TABLE IF EXISTS `article`;
 CREATE TABLE `article` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文章表id',
   `column_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '栏目id',
-  `title` varchar(50) NOT NULL DEFAULT '' COMMENT '文章标题',
+  `title` varchar(100) NOT NULL DEFAULT '' COMMENT '文章标题',
+  `summary` varchar(300) NOT NULL DEFAULT '' COMMENT '文章简介',
   `content` text COMMENT '文章内容',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建人id',
   `username` varchar(50) NOT NULL DEFAULT '' COMMENT '创建人姓名',
@@ -69,7 +70,7 @@ CREATE TABLE `article` (
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`),
   KEY `column_id` (`column_id`),
-  KEY `user_id` (`user_id`)
+  KEY `title` (`title`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `article` WRITE;
@@ -98,8 +99,7 @@ CREATE TABLE `article_column` (
   `username` varchar(50) DEFAULT NULL COMMENT '创建人姓名',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`),
-  KEY `pid` (`pid`),
-  KEY `user_id` (`user_id`)
+  KEY `pid` (`pid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `article_column` WRITE;
@@ -146,8 +146,8 @@ DROP TABLE IF EXISTS `auth_group_access`;
 CREATE TABLE `auth_group_access` (
   `uid` mediumint(10) unsigned NOT NULL COMMENT '用户id',
   `group_id` mediumint(10) unsigned NOT NULL COMMENT '用户组id',
-  KEY `idx_uid` (`uid`),
-  KEY `idx_group_id` (`group_id`)
+  KEY `uid` (`uid`),
+  KEY `group_id` (`group_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 LOCK TABLES `auth_group_access` WRITE;

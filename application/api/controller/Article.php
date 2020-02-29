@@ -13,7 +13,7 @@ class Article extends Controller
      */
     public function index(Request $request)
     {
-        $items = model('admin/Article')->articles_list($request->param('page'));
+        $items = model('admin/Article')->articles_list([],$request->param('page'));
         foreach ($items as $k=>$v){
             $items[$k]['thumb'] = Config::get('website_url').'/'.$v['thumb'];
             $items[$k]['views'] = mt_rand(1,100);
@@ -41,5 +41,26 @@ class Article extends Controller
         }
 
         return json($article);
+    }
+
+    public function search(Request $request)
+    {
+        $map = [];
+        $keywords = $request->param('keywords');
+        if($keywords){
+            $map[] = ['title','like',sprintf('%%%s%%',$keywords)];
+        }
+        $items = model('admin/Article')->articles_list($map,$request->param('page'));
+        foreach ($items as $k=>$v){
+            $items[$k]['thumb'] = Config::get('website_url').'/'.$v['thumb'];
+            $items[$k]['views'] = mt_rand(1,100);
+        }
+
+        $data = [
+            'message' => 'success',
+            'articles' => $items
+        ];
+
+        return json($data);
     }
 }

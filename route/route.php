@@ -11,6 +11,7 @@
 
 Route::rule('api/category/article', 'api/category/article','GET');
 Route::rule('api/category', 'api/category/index','GET');
+Route::rule('api/article/search', 'api/article/search','GET');
 Route::rule('api/articles/:page', 'api/article/index','GET');
 Route::rule('api/article/:id', 'api/article/view','GET');
 Route::rule('novel/index', 'index/novel/index','GET')->cache(3600);
