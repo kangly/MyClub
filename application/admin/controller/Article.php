@@ -102,7 +102,8 @@ class Article extends Admin
                 'summary' => $request->param('summary'),
                 'content' => $content,
                 'source' => $request->param('source'),
-                'source_link' => $request->param('source_link')
+                'source_link' => $request->param('source_link'),
+                'is_publish' => $request->param('is_publish')
             ];
 
             $article = model('admin/Article');
