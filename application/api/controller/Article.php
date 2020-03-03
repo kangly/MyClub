@@ -1,11 +1,10 @@
 <?php
 namespace app\api\controller;
 
-use think\Controller;
 use think\facade\Config;
 use think\Request;
 
-class Article extends Controller
+class Article extends Base
 {
     /**
      * @param Request $request
@@ -17,6 +16,26 @@ class Article extends Controller
         foreach ($items as $k=>$v){
             $items[$k]['thumb'] = Config::get('website_url').'/'.$v['thumb'];
             $items[$k]['views'] = mt_rand(1,100);
+        }
+
+        $data = [
+            'message' => 'success',
+            'articles' => $items
+        ];
+
+        return json($data);
+    }
+
+    /**
+     * @return \think\response\Json
+     */
+    public function recommend()
+    {
+        $map = [];
+        $map[] = ['is_recommend','=',1];
+        $items = model('admin/Article')->articles_list($map,1,3);
+        foreach ($items as $k=>$v){
+            $items[$k]['thumb'] = Config::get('website_url').'/'.$v['thumb'];
         }
 
         $data = [
@@ -43,6 +62,10 @@ class Article extends Controller
         return json($article);
     }
 
+    /**
+     * @param Request $request
+     * @return \think\response\Json
+     */
     public function search(Request $request)
     {
         $map = [];

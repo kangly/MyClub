@@ -21,7 +21,12 @@
         var device = device.default;
         $(function(){
             $('#open_new_win').attr('href',location.href);
+            //_refurbish();
         });
+        function _refurbish(){
+            setTimeout('_refurbish()',600000);
+            $.get('/admin/test/ok', {}, function(data) {});
+        }
     </script>
     <!--[if lt IE 9]>
     <script src="/assets/js/html5shiv.js"></script>

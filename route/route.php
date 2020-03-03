@@ -9,8 +9,10 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
+Route::rule('api/onLogin', 'api/base/onLogin','GET');
 Route::rule('api/category/article', 'api/category/article','GET');
 Route::rule('api/category', 'api/category/index','GET');
+Route::rule('api/article/recommend', 'api/article/recommend','GET');
 Route::rule('api/article/search', 'api/article/search','GET');
 Route::rule('api/articles/:page', 'api/article/index','GET');
 Route::rule('api/article/:id', 'api/article/view','GET');

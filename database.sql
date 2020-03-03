@@ -20,34 +20,25 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
-# Dump of table admin
+# Dump of table member
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `admin`;
+DROP TABLE IF EXISTS `member`;
 
-CREATE TABLE `admin` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户id',
-  `username` varchar(50) NOT NULL DEFAULT '' COMMENT '用户名',
-  `nickname` varchar(50) NOT NULL DEFAULT '' COMMENT '用户昵称',
-  `password` char(32) NOT NULL DEFAULT '' COMMENT '登录密码',
-  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '用户状态 0：禁用； 1：正常',
-  `register_time` datetime DEFAULT NULL COMMENT '注册时间',
+CREATE TABLE `member` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '会员表id',
+  `username` varchar(50) NOT NULL DEFAULT '' COMMENT '会员名',
+  `email` varchar(100) NOT NULL DEFAULT '' COMMENT '邮箱',
+  `mobile` varchar(11) NOT NULL DEFAULT '' COMMENT '手机号',
+  `nickname` varchar(50) DEFAULT NULL COMMENT '昵称',
+  `password` char(32) NOT NULL DEFAULT '' COMMENT '密码',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态',
   `last_login_ip` char(15) NOT NULL DEFAULT '' COMMENT '最后登录ip',
   `last_login_time` datetime DEFAULT NULL COMMENT '最后登录时间',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`),
-  KEY `username` (`username`)
+  KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-LOCK TABLES `admin` WRITE;
-/*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-
-INSERT INTO `admin` (`id`, `username`, `nickname`, `password`, `status`, `register_time`, `last_login_ip`, `last_login_time`)
-VALUES
-  (1,'admin','小小康','e19d5cd5af0378da05f63f891c7467af',1,'2017-09-05 13:31:09','127.0.0.1','2018-06-11 11:09:35'),
-  (2,'test','测试','e19d5cd5af0378da05f63f891c7467af',1,NULL,'',NULL);
-
-/*!40000 ALTER TABLE `admin` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Dump of table article
@@ -67,6 +58,7 @@ CREATE TABLE `article` (
   `source_link` varchar(100) NOT NULL DEFAULT '' COMMENT '文章来源链接',
   `sort` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '栏目内排序',
   `is_publish` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否发布',
+  `is_recommend` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否首页推荐',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`),
   KEY `column_id` (`column_id`),

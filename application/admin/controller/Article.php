@@ -30,10 +30,16 @@ class Article extends Admin
         return $this->fetch();
     }
 
+    /**
+     * @return array|\PDOStatement|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function search_article()
     {
         $data = model('admin/Article')
-            ->field('id,title,is_publish,column_id')
+            ->field('id,title,is_publish,column_id,is_recommend')
             ->order(['sort'=>'desc','id'=>'desc'])
             ->select();
 
@@ -55,14 +61,10 @@ class Article extends Admin
     public function add_article(Request $request)
     {
         $id = $request->param('id');
-
         $article = null;
-
-        if($id>0)
-        {
+        if($id>0){
             $article = model('admin/Article')->where('id','=',$id)->find();
         }
-
         $this->assign('article',$article);
 
         $column_list = getColumns([],'id,title,pid');
@@ -103,7 +105,8 @@ class Article extends Admin
                 'content' => $content,
                 'source' => $request->param('source'),
                 'source_link' => $request->param('source_link'),
-                'is_publish' => $request->param('is_publish')
+                'is_publish' => $request->param('is_publish'),
+                'is_recommend' => $request->param('is_recommend')
             ];
 
             $article = model('admin/Article');
@@ -152,6 +155,38 @@ class Article extends Admin
         if($id>0)
         {
             Model('admin/Article')->destroy($id);
+
+            echo $id;
+        }
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function publish_article(Request $request)
+    {
+        $id = $request->param('id');
+
+        if($id>0)
+        {
+            $is_publish = $request->param('is_publish');
+            Model('admin/Article')->save(['is_publish'=>$is_publish?0:1],['id'=>$id]);
+
+            echo $id;
+        }
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function recommend_article(Request $request)
+    {
+        $id = $request->param('id');
+
+        if($id>0)
+        {
+            $is_recommend = $request->param('is_recommend');
+            Model('admin/Article')->save(['is_recommend'=>$is_recommend?0:1],['id'=>$id]);
 
             echo $id;
         }

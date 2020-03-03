@@ -56,7 +56,7 @@ class Index extends Home
                 return json($result);
             }
 
-            $is_exist = Db::name('user')->field('id')->where('email',$email)->find();
+            $is_exist = Db::name('member')->field('id')->where('email',$email)->find();
             if($is_exist && $is_exist['id'])
             {
                 $result['status'] = 'error';
@@ -77,7 +77,7 @@ class Index extends Home
                 return json($result);
             }
 
-            $is_exist = Db::name('user')->field('id')->where('nickname',$nickname)->find();
+            $is_exist = Db::name('member')->field('id')->where('nickname',$nickname)->find();
             if($is_exist && $is_exist['id'])
             {
                 $result['status'] = 'error';
@@ -109,7 +109,7 @@ class Index extends Home
                     'create_time' => _time()
                 ];
 
-                Db::name('user')->insert($data);
+                Db::name('member')->insert($data);
 
                 $result['status'] = 'success';
                 $result['code'] = 200;
@@ -187,7 +187,7 @@ class Index extends Home
                 return json($result);
             }
 
-            $is_exist = Db::name('user')->where('email',$email)->find();
+            $is_exist = Db::name('member')->where('email',$email)->find();
             if($is_exist && $is_exist['id'])
             {
                 if(md5($password)==$is_exist['password'])
@@ -197,7 +197,7 @@ class Index extends Home
                     $result['text'] = '登录成功!';
 
                     // 更新登录信息
-                    Db::name('user')->where('id',$is_exist['id'])->update([
+                    Db::name('member')->where('id',$is_exist['id'])->update([
                         'last_login_ip' => request()->ip(),
                         'last_login_time' => _time()
                     ]);
@@ -209,7 +209,7 @@ class Index extends Home
                         'email' => $is_exist['email']
                     );
 
-                    session('user_auth', $auth, 'front');
+                    session('member_auth', $auth, 'front');
 
                     return json($result);
                 }
@@ -277,8 +277,5 @@ class Index extends Home
         $connection->close();
     }
 
-    public function test()
-    {
-
-    }
+    public function test(){}
 }

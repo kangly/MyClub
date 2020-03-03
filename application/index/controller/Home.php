@@ -21,7 +21,7 @@ class Home extends Controller
 
     function initialize()
     {
-        $this->userInfo = session('user_auth','','front');
+        $this->userInfo = session('member_auth','','front');
         $this->assign('userInfo',$this->userInfo);
 
         // 赋值全局模板变量

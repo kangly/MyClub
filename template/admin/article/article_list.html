@@ -32,12 +32,22 @@
                     return row.is_publish==1?'是':'否';
                 }
             }, {
+                field: 'is_recommend',
+                title: '首页推荐',
+                align: 'center',
+                sortable : true,
+                formatter:function(value,row,index){
+                    return row.is_recommend==1?'是':'否';
+                }
+            }, {
                 title: '操作',
                 align: 'center',
                 formatter:function(value,row,index){
                     var a = '<button class="btn btn-sm btn-success" onclick="add_article(\''+ row.id + '\')">编辑</button> ';
                     var b = '<button class="btn btn-sm btn-danger" onclick="delete_article(\''+ row.id +'\')">删除</button> ';
-                    return a+b;
+                    var c = '<button class="btn btn-sm btn-default" onclick="publish_article(\''+ row.id +'\',\''+ row.is_publish +'\')">发布</button> ';
+                    var d = '<button class="btn btn-sm btn-orange" onclick="recommend_article(\''+ row.id +'\',\''+ row.is_recommend +'\')">推荐</button> ';
+                    return a+b+c+d;
                 }
             }]
         };
@@ -59,6 +69,64 @@
     function delete_article(id){
         _delete_item('/admin/article/delete_article',{id:id},function(){
             $('#articlesList').bootstrapTable('removeByUniqueId',id);
+        });
+    }
+
+    function publish_article(id,is_publish){
+        var title = '';
+        if(is_publish==0){
+            title = '确认发布吗？';
+        }else{
+            title = '确认取消发布吗？';
+        }
+        layer.confirm(title,function(index){
+            $.ajax({
+                dataType: "json",
+                type: "post",
+                url: '/admin/article/publish_article',
+                data: {
+                    id:id,
+                    is_publish:is_publish
+                },
+                success: function (ret){
+                    if(ret>0){
+                        _tip_success('操作成功!');
+                        load_article_list();
+                        layer.close(index);
+                    }else{
+                        _tip_error('操作失败!');
+                    }
+                }
+            });
+        });
+    }
+
+    function recommend_article(id,is_recommend){
+        var title = '首页推荐仅显示倒序排列的前三篇文章！';
+        if(is_recommend==0){
+            title = '确认设置首页推荐吗？'+title;
+        }else{
+            title = '确认取消首页推荐吗？'+title;
+        }
+        layer.confirm(title,function(index){
+            $.ajax({
+                dataType: "json",
+                type: "post",
+                url: '/admin/article/recommend_article',
+                data: {
+                    id:id,
+                    is_recommend:is_recommend
+                },
+                success: function (ret){
+                    if(ret>0){
+                        _tip_success('操作成功!');
+                        load_article_list();
+                        layer.close(index);
+                    }else{
+                        _tip_error('操作失败!');
+                    }
+                }
+            });
         });
     }
 </script>

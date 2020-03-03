@@ -11,6 +11,11 @@ use think\Controller;
 
 class Test extends Controller
 {
+    public function ok()
+    {
+        echo 'ok';
+    }
+
     public function index()
     {
         $data = [1,1,2];
