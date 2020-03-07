@@ -37,7 +37,15 @@ class ArticleColumn extends Model
      */
     public function articles()
     {
-        return $this->hasMany('Article','column_id','id');
+        return $this->hasMany('Article','column_id','id')->field('id,column_id,title,summary,content,thumb,create_time');
+    }
+
+    /**
+     * @return \think\model\relation\HasMany
+     */
+    public function visits()
+    {
+        return $this->hasMany('ArticleVisit','article_id','id');
     }
 
     /**
@@ -53,6 +61,7 @@ class ArticleColumn extends Model
         if($column){
             return $column
                 ->articles()
+                ->withCount(['visits'=>'views'])
                 ->field('id,title,summary,thumb,left(create_time,16) posted_at')
                 ->page($page,$page_size)
                 ->order('id desc')

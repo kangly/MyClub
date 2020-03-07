@@ -9,12 +9,17 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-Route::rule('api/onLogin', 'api/base/onLogin','GET');
+//接口目前因某些原因未区分请求类型,实际操作要区分
+Route::rule('api/onLogin', 'api/common/onLogin','GET');
 Route::rule('api/category/article', 'api/category/article','GET');
 Route::rule('api/category', 'api/category/index','GET');
+Route::rule('api/article/storeList', 'api/article/storeList','GET');
+Route::rule('api/article/store', 'api/article/store','GET');
 Route::rule('api/article/recommend', 'api/article/recommend','GET');
 Route::rule('api/article/search', 'api/article/search','GET');
 Route::rule('api/articles/:page', 'api/article/index','GET');
+Route::rule('api/article/info', 'api/article/info','GET');
+Route::rule('api/article/show', 'api/article/show','GET');
 Route::rule('api/article/:id', 'api/article/view','GET');
 Route::rule('novel/index', 'index/novel/index','GET')->cache(3600);
 Route::rule('novel/view/:nid/:id', 'index/novel/view','GET')->cache(3600);

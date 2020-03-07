@@ -27,6 +27,7 @@ DROP TABLE IF EXISTS `member`;
 
 CREATE TABLE `member` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '会员表id',
+  `openid` varchar(30) NOT NULL DEFAULT '' COMMENT '微信openid',
   `username` varchar(50) NOT NULL DEFAULT '' COMMENT '会员名',
   `email` varchar(100) NOT NULL DEFAULT '' COMMENT '邮箱',
   `mobile` varchar(11) NOT NULL DEFAULT '' COMMENT '手机号',
@@ -37,7 +38,24 @@ CREATE TABLE `member` (
   `last_login_time` datetime DEFAULT NULL COMMENT '最后登录时间',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`),
+  KEY `openid` (`openid`),
   KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+# Dump of table member_openid
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `member_openid`;
+
+CREATE TABLE `member_openid` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户与openid关系表id',
+  `member_id` int(10) unsigned NOT NULL COMMENT '用户id',
+  `openid` varchar(30) NOT NULL DEFAULT '' COMMENT '微信openid',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  KEY `member_id` (`member_id`),
+  KEY `openid` (`openid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -103,6 +121,38 @@ VALUES
 
 /*!40000 ALTER TABLE `article_column` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+# Dump of table article_store
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `article_store`;
+
+CREATE TABLE `article_store` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文章收藏表id',
+  `article_id` int(10) unsigned NOT NULL default '0' COMMENT '文章id',
+  `member_id` int(10) unsigned NOT NULL default '0' COMMENT '用户id',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  KEY `article_id` (`article_id`),
+  KEY `member_id` (`member_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+# Dump of table article_visit
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `article_visit`;
+
+CREATE TABLE `article_visit` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文章浏览表id',
+  `article_id` int(10) unsigned NOT NULL default '0' COMMENT '文章id',
+  `member_id` int(10) unsigned NOT NULL default '0' COMMENT '用户id',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  KEY `article_id` (`article_id`),
+  KEY `member_id` (`member_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 # Dump of table auth_group

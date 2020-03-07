@@ -1,4 +1,4 @@
 <?php
 return [
-    'jwt_key' => ''
+    'jwt_key' => '' //jwt key
 ];

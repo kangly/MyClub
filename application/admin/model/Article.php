@@ -20,6 +20,23 @@ class Article extends Model
     }
 
     /**
+     * @return \think\model\relation\HasMany
+     */
+    public function visits()
+    {
+        return $this->hasMany('ArticleVisit','article_id','id');
+    }
+
+    /**
+     * 文章栏目-文章 一对多关联
+     * @return \think\model\relation\HasMany
+     */
+    public function articles()
+    {
+        return $this->hasMany('Article','column_id','id');
+    }
+
+    /**
      * 文章列表
      * @param array $map
      * @param int $page
@@ -36,6 +53,7 @@ class Article extends Model
         return $this
             ->field('id,title,summary,thumb,left(create_time,16) posted_at')
             ->where($map)
+            ->withCount(['visits'=>'views'])
             ->order('id desc')
             ->page($page,$page_size)
             ->select();
@@ -54,6 +72,7 @@ class Article extends Model
         return $this
             ->field('id,title,content,username author,left(create_time,16) posted_at')
             ->where('id','=',$id)
+            ->withCount(['visits'=>'views'])
             ->find();
     }
 }

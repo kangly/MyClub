@@ -15,7 +15,7 @@
 
 $data = [
     // 应用调试模式
-    'app_debug'              => true,
+    'app_debug'              => false,
     // 应用Trace
     'app_trace'              => false,
     // 应用模式状态
@@ -107,7 +107,7 @@ $data = [
 
     // 异常页面的模板文件
     'exception_tmpl'         => Env::get('think_path') . 'tpl/think_exception.tpl',
-    //'exception_tmpl'         => __DIR__ . '/../public/template/index/error/index.html',
+    //'exception_tmpl'         => __DIR__ . '/../template/index/error/index.html',
 
     // 错误显示信息,非调试模式有效
     'error_message'          => '页面错误！请稍后再试～',
@@ -121,7 +121,7 @@ $data = [
     'url_route_on'           => true,
     // 开启路由合并解析
     'route_rule_merge'	     => true,
-    //网站域名
+    //网站https域名,微信小程序需要
     'website_url'            => '',
 ];
 
