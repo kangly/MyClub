@@ -15,7 +15,7 @@
 
 $data = [
     // 应用调试模式
-    'app_debug'              => false,
+    'app_debug'              => true,
     // 应用Trace
     'app_trace'              => false,
     // 应用模式状态
@@ -121,7 +121,7 @@ $data = [
     'url_route_on'           => true,
     // 开启路由合并解析
     'route_rule_merge'	     => true,
-    //网站https域名,微信小程序需要
+    //网站域名
     'website_url'            => '',
 ];
 

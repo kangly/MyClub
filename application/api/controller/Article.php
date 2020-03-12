@@ -13,45 +13,9 @@ class Article extends Controller
      * @param Request $request
      * @return \think\response\Json
      */
-    public function index(Request $request)
-    {
-        $page = $request->param('page');
-        $items_json = session('article_'.$page);
-        if($items_json){
-            $items = json_decode($items_json,true);
-        }else{
-            $items = model('admin/Article')->articles_list([],$page);
-            foreach ($items as $k=>$v){
-                $items[$k]['thumb'] = Config::get('website_url').'/'.$v['thumb'];
-            }
-            session('article_'.$page,json_encode($items));
-        }
-
-        $data = [
-            'message' => 'success',
-            'articles' => $items
-        ];
-
-        return json($data);
-    }
-
-    /**
-     * @param Request $request
-     * @return \think\response\Json
-     */
     public function show(Request $request)
     {
         $page = $request->param('page');
-        /*$items_json = session('article_'.$page);
-        if($items_json){
-            $items = json_decode($items_json,true);
-        }else{
-            $items = model('admin/Article')->articles_list([],$page);
-            foreach ($items as $k=>$v){
-                $items[$k]['thumb'] = Config::get('website_url').'/'.$v['thumb'];
-            }
-            session('article_'.$page,json_encode($items));
-        }*/
         $items = model('admin/Article')->articles_list([],$page);
         foreach ($items as $k=>$v){
             $items[$k]['thumb'] = Config::get('website_url').'/'.$v['thumb'];
@@ -94,27 +58,6 @@ class Article extends Controller
     /**
      * @param Request $request
      * @return \think\response\Json
-     */
-    public function view(Request $request)
-    {
-        $article = [];
-        $id = $request->param('id');
-        if($id>0){
-            $article_json = session('view_'.$id);
-            if($article_json){
-                $article = json_decode($article_json,true);
-            }else{
-                $article = model('admin/Article')->article_view($id);
-                session('view_'.$id,json_encode($article));
-            }
-        }
-
-        return json($article);
-    }
-
-    /**
-     * @param Request $request
-     * @return \think\response\Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
@@ -124,13 +67,6 @@ class Article extends Controller
         $article = [];
         $id = $request->param('id');
         if($id>0){
-            /*$article_json = session('view_'.$id);
-            if($article_json){
-                $article = json_decode($article_json,true);
-            }else{
-                $article = model('admin/Article')->article_view($id);
-                session('view_'.$id,json_encode($article));
-            }*/
             $article = model('admin/Article')->article_view($id);
             $uid = $request->param('uid');
             if($uid>0){

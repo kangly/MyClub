@@ -38,16 +38,6 @@ class Category extends Controller
     {
         $id = $request->param('id');
         $page = $request->param('page');
-        /*$items_json = session('article_column_'.$page.'_'.$id);
-        if($items_json){
-            $items = json_decode($items_json,true);
-        }else{
-            $items = model('admin/ArticleColumn')->articles_list($id,$page);
-            foreach ($items as $k=>$v){
-                $items[$k]['thumb'] = Config::get('website_url').'/'.$v['thumb'];
-            }
-            session('article_column_'.$page.'_'.$id,json_encode($items));
-        }*/
         $items = model('admin/ArticleColumn')->articles_list($id,$page);
         foreach ($items as $k=>$v){
             $items[$k]['thumb'] = Config::get('website_url').'/'.$v['thumb'];
